@@ -1,0 +1,32 @@
+<div class="panel-header panel-header-sm"></div>
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Prendre un Rendez-vous</h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="rendezvousForm" (ngSubmit)="prendreRendezvous()">
+            <div class="form-group">
+              <label for="dateHeure">Date et Heure :</label>
+              <input type="datetime-local" id="dateHeure" formControlName="dateHeure" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="notes">Notes :</label>
+              <textarea id="notes" formControlName="notes" class="form-control"></textarea>
+            </div>
+
+            <button type="submit" class="btn" [style.backgroundColor]="'#204065'" [disabled]="rendezvousForm.invalid">
+              Prendre Rendez-vous
+            </button>
+          </form>
+
+          <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
+          <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

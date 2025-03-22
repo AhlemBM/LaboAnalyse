@@ -1,0 +1,126 @@
+/* Conteneur principal */
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f2f5; /* Fond doux */
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Contenu du profil */
+.profile-card {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Titre du profil */
+h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Avatar */
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  margin-bottom: 20px;
+  object-fit: cover;
+}
+
+/* Informations du profil */
+.profile-info {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+/* Style des labels des informations */
+.profile-info label {
+  font-weight: bold;
+  color: #555;
+  text-align: right;
+  font-size: 14px;
+}
+
+/* Style des valeurs des informations */
+.profile-info p {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Bouton modifier */
+button {
+  padding: 12px 24px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+/* Changement de couleur du bouton au survol */
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsivité */
+@media (max-width: 768px) {
+  .profile-info {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .profile-card {
+    padding: 20px;
+    width: 100%;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  button {
+    width: 100%;
+  }
+}
+.profile-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px; /* Espacement avec les autres éléments */
+}
+
+.profile-avatar img {
+  width: 120px;  /* Taille de l'avatar */
+  height: 120px; /* Taille de l'avatar */
+  border-radius: 50%;  /* Coin arrondis pour un effet circulaire */
+  border: 4px solid #007bff;  /* Bordure bleue autour de l'avatar */
+  object-fit: cover;  /* Permet à l'image de se redimensionner en conservant ses proportions */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Ombre subtile pour l'effet de profondeur */
+  transition: all 0.3s ease;  /* Transition douce lors du survol */
+}
+
+.profile-avatar img:hover {
+  transform: scale(1.05);  /* L'avatar devient légèrement plus grand au survol */
+  border-color: #0056b3;  /* Changement de la couleur de la bordure au survol */
+}

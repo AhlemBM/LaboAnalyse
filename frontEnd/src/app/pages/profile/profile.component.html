@@ -1,0 +1,29 @@
+<div class="profile-container" *ngIf="userId">
+  <div class="card card-user">
+    <div class="image">
+      <img  [src]="'assets/img/bg5.jpg'" alt="...">
+    </div>
+    <div class="card-body">
+      <div class="author">
+        <a href="#">
+          <img class="avatar border-gray" [src]=" 'assets/img/avatarProfile.png'"  alt="Avatar">
+          <h5 class="title">{{ userProfile.user.nom }} {{ userProfile.user.prenom }}</h5>
+        </a>
+        <p class="description">{{ userProfile.user.email }}</p>
+      </div>
+      <div class="profile-info">
+        <div>
+          <label for="dateNaissance">Date de naissance:</label>
+          <p>{{ userProfile.user.dateNaissance | date }}</p>
+        </div>
+
+        <div>
+          <label for="telephone">Téléphone:</label>
+          <p>{{ userProfile.user.telephone }}</p>
+        </div>
+      </div>
+      <!-- Bouton de modification du profil -->
+      <button (click)="editProfile()" class="btn btn-neutral btn-round btn-lg">Modifier le profil</button>
+    </div>
+  </div>
+</div>

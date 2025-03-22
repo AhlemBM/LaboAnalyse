@@ -1,0 +1,125 @@
+/* Container principal pour centrer le formulaire */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f7fc; /* Fond doux */
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Style du formulaire divisé en 2 parties */
+form {
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 900px; /* Largeur du formulaire */
+  box-sizing: border-box;
+}
+
+/* Style pour les colonnes gauche et droite */
+.left-column,
+.right-column {
+  width: 48%; /* Chaque colonne occupe 48% de la largeur du formulaire */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style des groupes de formulaire */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Style des labels */
+label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+/* Style des champs de saisie */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="date"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+  transition: border 0.3s ease;
+}
+
+/* Focus sur les champs de saisie */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Style du bouton de soumission */
+button {
+  width: 100%;
+  padding: 14px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 15px;
+}
+
+/* Changement de couleur du bouton au survol */
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Style des messages d'erreur */
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Style du lien */
+a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+/* Style du lien pour se connecter */
+.register-link {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.register-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}

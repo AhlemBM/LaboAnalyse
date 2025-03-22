@@ -1,0 +1,42 @@
+<div class="panel-header panel-header-sm"></div>
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title"> Résultats des Tests</h4>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive" *ngIf="resultats.length > 0; else noResult">
+            <table class="table">
+              <thead class="text-primary">
+              <tr>
+                <th>Test</th>
+                <th>Date</th>
+                <th>Résultat</th>
+                <th class="text-right">Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let resultat of resultats">
+                <td>{{ resultat.test.nom }}</td>
+                <td>{{ resultat.createdAt | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ resultat.analyse }}</td>
+                <td class="text-right">
+                  <button class="btn btn-download" *ngIf="resultat.analyse"
+                          (click)="telechargerFichier(resultat.id)">
+                    📥 Télécharger
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <ng-template #noResult>
+            <p class="text-center text-muted">Aucun résultat trouvé.</p>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

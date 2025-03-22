@@ -1,0 +1,25 @@
+.text-primary {
+  color: #3498db;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 14px;
+}
+.btn-download {
+  background-color: #204065;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-download:hover {
+  background-color: #1a3350;
+}
