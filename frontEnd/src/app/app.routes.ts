@@ -7,6 +7,7 @@ import {ProfileComponent} from './pages/profile/profile.component';
 import {LayoutComponent} from './components/layout/layout.component';
 import {ResultatsComponent} from './pages/resultats/resultats.component';
 import {RendezVousComponent} from './pages/rendez-vous/rendez-vous.component';
+import {TestComponent} from './pages/test/test.component';
 
 export const routes: Routes = [
   {path:'' ,component: HomeComponent} ,
@@ -20,6 +21,7 @@ export const routes: Routes = [
       { path: 'profile', component: ProfileComponent , data: { title: 'Pofile' }},
       { path: 'resultats', component: ResultatsComponent, data: { title: 'Resultats' } },
       { path: 'rendez-vous', component: RendezVousComponent , data: { title: 'Rendez-vous' } },
+    { path: 'test', component: TestComponent , data: { title: 'test' } },
 
     ]
   }

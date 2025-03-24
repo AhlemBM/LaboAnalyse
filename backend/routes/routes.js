@@ -36,7 +36,7 @@ router.delete("/resultat/delete/:id", resultatCtrl.deleteResultat);
 router.post("/rendezvous/create", rendezvousCtrl.createRendezvous);
 router.get("/rendezvous/all", rendezvousCtrl.getAllRendezvous);
 router.get("/rendezvous/:id", rendezvousCtrl.getRendezvousById);
-router.get("/rendezvous/patient/:patientId", rendezvousCtrl.getRendezvousByPatientId);
+router.get("/rendezvous/patient/:numTel", rendezvousCtrl.getRendezvousByPatient);
 router.put("/rendezvous/update/:id", rendezvousCtrl.updateRendezvous);
 router.delete("/rendezvous/delete/:id", rendezvousCtrl.deleteRendezvous);
 

@@ -1,24 +1,30 @@
-const { Rendezvous, User } = require('../models');
+const { Rendezvous, Test } = require('../models');
+
 const createRendezvous = async (req, res) => {
     try {
-        // Extraction des données du corps de la requête
-        const { patientId, dateHeure, notes } = req.body;
+        const { nom, prenom, numTel, adresse, dateHeure, notes, testId, lieu } = req.body;
 
-        // Vérification si les champs nécessaires sont présents
-        if (!patientId || !dateHeure) {
-            return res.status(400).json({ message: "PatientId et DateHeure sont requis." });
+        if (!nom || !prenom || !numTel || !adresse || !dateHeure || !testId || !lieu) {
+            return res.status(400).json({ message: "Nom, Prénom, NumTel, Adresse, DateHeure, TestId et Lieu sont requis." });
         }
 
-        // Création du rendez-vous
+        // Vérification du lieu
+        if (!['domicile', 'labo'].includes(lieu)) {
+            return res.status(400).json({ message: "Le lieu doit être 'domicile' ou 'labo'." });
+        }
+
         const rendezvous = await Rendezvous.create({
-            patientId,
+            nom,
+            prenom,
+            numTel,
+            adresse,
             dateHeure,
             notes,
-            statut: 'en attente', // Statut initial
+            testId,
+            lieu,  // Ajouter le lieu
+            statut: 'en attente',
         });
 
-        // Retourner une réponse de succès
-        console.log("Rendez-vous créé avec succès :", rendezvous);
         res.status(201).json({
             message: "Rendez-vous créé avec succès",
             data: rendezvous,
@@ -34,8 +40,7 @@ const getRendezvousById = async (req, res) => {
     try {
         const rendezvous = await Rendezvous.findByPk(id, {
             include: [
-                { model: User, as: 'patient' },
-                { model: User, as: 'medecin' }
+                { model: Test, as: 'test' },
             ]
         });
 
@@ -49,33 +54,11 @@ const getRendezvousById = async (req, res) => {
         res.status(500).json({ message: 'Erreur serveur' });
     }
 };
-const updateRendezvousStatus = async (req, res) => {
-    const { id } = req.params;
-    const { statut } = req.body;
-    try {
-        const rendezvous = await Rendezvous.findByPk(id);
-
-        if (!rendezvous) {
-            return res.status(404).json({ message: 'Rendez-vous introuvable' });
-        }
-
-        rendezvous.statut = statut;
-        await rendezvous.save();
-        res.status(200).json(rendezvous);
-    } catch (err) {
-        console.error('Erreur lors de la mise à jour du statut', err);
-        res.status(500).json({ message: 'Erreur serveur' });
-    }
-};
-
 
 const getAllRendezvous = async (req, res) => {
     try {
         const rendezvousList = await Rendezvous.findAll({
-            include: [
-                { model: User, as: 'patient' },  // Inclure le patient
-                { model: User, as: 'medecin' },  // Inclure le médecin
-            ]
+            include: [{ model: Test, as: 'test' }],
         });
         res.status(200).json(rendezvousList);
     } catch (err) {
@@ -84,42 +67,33 @@ const getAllRendezvous = async (req, res) => {
     }
 };
 
-const getRendezvousByPatientId = async (req, res) => {
-    try {
-        const { patientId } = req.params;  // Récupérer l'ID du patient depuis les paramètres
-        const rendezvous = await Rendezvous.findAll({
-            where: { patientId },
-            include: [
-                { model: User, as: "patient" },  // Inclure les informations du patient
-            ]
-        });
-
-        if (!rendezvous.length) {
-            return res.status(404).json({ message: "Aucun rendez-vous trouvé pour ce patient." });
-        }
-
-        res.status(200).json(rendezvous);
-    } catch (error) {
-        console.error("Erreur lors de la récupération des rendez-vous:", error);
-        res.status(500).json({ message: "Erreur serveur" });
-    }
-};
 const updateRendezvous = async (req, res) => {
     try {
-        const { id } = req.params;  // Récupérer l'ID du rendez-vous depuis les paramètres
-        const { dateHeure, notes, statut } = req.body;  // Récupérer les nouvelles informations
+        const { id } = req.params;
+        const { nom, prenom, numTel, adresse, dateHeure, notes, statut, testId, lieu } = req.body;
 
-        const rendezvous = await Rendezvous.findByPk(id);  // Trouver le rendez-vous par ID
+        const rendezvous = await Rendezvous.findByPk(id);
         if (!rendezvous) {
             return res.status(404).json({ message: "Rendez-vous non trouvé" });
         }
 
-        // Mettre à jour les informations du rendez-vous
+        // Mise à jour des informations
+        rendezvous.nom = nom || rendezvous.nom;
+        rendezvous.prenom = prenom || rendezvous.prenom;
+        rendezvous.numTel = numTel || rendezvous.numTel;
+        rendezvous.adresse = adresse || rendezvous.adresse;
         rendezvous.dateHeure = dateHeure || rendezvous.dateHeure;
         rendezvous.notes = notes || rendezvous.notes;
         rendezvous.statut = statut || rendezvous.statut;
+        rendezvous.testId = testId || rendezvous.testId;
+        if (lieu) {
+            if (!['domicile', 'labo'].includes(lieu)) {
+                return res.status(400).json({ message: "Le lieu doit être 'domicile' ou 'labo'." });
+            }
+            rendezvous.lieu = lieu;
+        }
 
-        await rendezvous.save();  // Sauvegarder les modifications
+        await rendezvous.save();
 
         res.status(200).json({ message: "Rendez-vous mis à jour avec succès", rendezvous });
     } catch (error) {
@@ -127,16 +101,17 @@ const updateRendezvous = async (req, res) => {
         res.status(500).json({ message: "Erreur serveur" });
     }
 };
+
 const deleteRendezvous = async (req, res) => {
     try {
-        const { id } = req.params;  // Récupérer l'ID du rendez-vous depuis les paramètres
-        const rendezvous = await Rendezvous.findByPk(id);  // Trouver le rendez-vous par ID
+        const { id } = req.params;
+        const rendezvous = await Rendezvous.findByPk(id);
 
         if (!rendezvous) {
             return res.status(404).json({ message: "Rendez-vous non trouvé" });
         }
 
-        await rendezvous.destroy();  // Supprimer le rendez-vous de la base de données
+        await rendezvous.destroy();
 
         res.status(200).json({ message: "Rendez-vous supprimé avec succès" });
     } catch (error) {
@@ -145,17 +120,36 @@ const deleteRendezvous = async (req, res) => {
     }
 };
 
+const getRendezvousByPatient = async (req, res) => {
+    try {
+        const { numTel } = req.params;
+
+        // Vérifier si le numéro de téléphone correspond à l'utilisateur connecté
+        if (numTel !== req.user.numTel) {
+            return res.status(403).json({ message: "Accès interdit : vous ne pouvez voir que vos propres rendez-vous." });
+        }
+
+        const rendezvous = await Rendezvous.findAll({
+            where: { numTel },
+            include: [{ model: Test, as: 'test' }],
+        });
+
+        if (!rendezvous.length) {
+            return res.status(404).json({ message: "Aucun rendez-vous trouvé pour ce numéro." });
+        }
+
+        res.status(200).json(rendezvous);
+    } catch (error) {
+        console.error("Erreur lors de la récupération des rendez-vous:", error);
+        res.status(500).json({ message: "Erreur serveur" });
+    }
+};
 
 module.exports = {
+    getRendezvousByPatient,
     createRendezvous,
     getAllRendezvous,
     getRendezvousById,
-    updateRendezvousStatus,
-    getRendezvousByPatientId,
     updateRendezvous,
-    deleteRendezvous
-
-
-
-
-}
+    deleteRendezvous,
+};

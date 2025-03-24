@@ -1,32 +1,85 @@
-<div class="panel-header panel-header-sm"></div>
-<div class="content">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">Prendre un Rendez-vous</h4>
-        </div>
-        <div class="card-body">
-          <form [formGroup]="rendezvousForm" (ngSubmit)="prendreRendezvous()">
-            <div class="form-group">
-              <label for="dateHeure">Date et Heure :</label>
-              <input type="datetime-local" id="dateHeure" formControlName="dateHeure" class="form-control">
-            </div>
-
-            <div class="form-group">
-              <label for="notes">Notes :</label>
-              <textarea id="notes" formControlName="notes" class="form-control"></textarea>
-            </div>
-
-            <button type="submit" class="btn" [style.backgroundColor]="'#204065'" [disabled]="rendezvousForm.invalid">
-              Prendre Rendez-vous
-            </button>
-          </form>
-
-          <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
-          <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
-        </div>
-      </div>
+<form [formGroup]="rendezvousForm" (ngSubmit)="prendreRendezvous()">
+  <!-- Champ Nom -->
+  <div class="form-group">
+    <label for="nom">Nom :</label>
+    <input type="text" id="nom" formControlName="nom" class="form-control"
+           [ngClass]="{'is-invalid': rendezvousForm.get('nom')?.invalid && rendezvousForm.get('nom')?.dirty}">
+    <div *ngIf="rendezvousForm.get('nom')?.invalid && rendezvousForm.get('nom')?.dirty" class="invalid-feedback">
+      Le nom est requis.
     </div>
   </div>
-</div>
+
+  <!-- Champ Prénom -->
+  <div class="form-group">
+    <label for="prenom">Prénom :</label>
+    <input type="text" id="prenom" formControlName="prenom" class="form-control"
+           [ngClass]="{'is-invalid': rendezvousForm.get('prenom')?.invalid && rendezvousForm.get('prenom')?.dirty}">
+    <div *ngIf="rendezvousForm.get('prenom')?.invalid && rendezvousForm.get('prenom')?.dirty" class="invalid-feedback">
+      Le prénom est requis.
+    </div>
+  </div>
+
+  <!-- Champ Numéro de téléphone -->
+  <div class="form-group">
+    <label for="numTel">Numéro de téléphone :</label>
+    <input type="text" id="numTel" formControlName="numTel" class="form-control"
+           [ngClass]="{'is-invalid': rendezvousForm.get('numTel')?.invalid && rendezvousForm.get('numTel')?.dirty}">
+    <div *ngIf="rendezvousForm.get('numTel')?.invalid && rendezvousForm.get('numTel')?.dirty" class="invalid-feedback">
+      Numéro de téléphone requis (10 chiffres).
+    </div>
+  </div>
+
+  <!-- Champ Date et Heure -->
+  <div class="form-group">
+    <label for="dateHeure">Date et Heure :</label>
+    <input type="datetime-local" id="dateHeure" formControlName="dateHeure" class="form-control"
+           [ngClass]="{'is-invalid': rendezvousForm.get('dateHeure')?.invalid && rendezvousForm.get('dateHeure')?.dirty}">
+    <div *ngIf="rendezvousForm.get('dateHeure')?.invalid && rendezvousForm.get('dateHeure')?.dirty" class="invalid-feedback">
+      La date et l'heure sont requises.
+    </div>
+  </div>
+
+  <!-- Champ Test -->
+  <div class="form-group">
+    <label for="testId">Test :</label>
+    <select id="testId" formControlName="testId" class="form-control"
+            [ngClass]="{'is-invalid': rendezvousForm.get('testId')?.invalid && rendezvousForm.get('testId')?.dirty}">
+      <option value="">Choisir un test</option>
+      <option *ngFor="let test of tests" [value]="test.id">{{ test.nom }}</option>
+    </select>
+    <div *ngIf="rendezvousForm.get('testId')?.invalid && rendezvousForm.get('testId')?.dirty" class="invalid-feedback">
+      Veuillez sélectionner un test.
+    </div>
+  </div>
+
+  <!-- Champ Lieu -->
+  <div class="form-group">
+    <label for="lieu">Lieu :</label>
+    <select id="lieu" formControlName="lieu" class="form-control" (change)="onLieuChange($event)"
+            [ngClass]="{'is-invalid': rendezvousForm.get('lieu')?.invalid && rendezvousForm.get('lieu')?.dirty}">
+      <option value="">Sélectionner un lieu</option>
+      <option value="domicile">Domicile</option>
+      <option value="labo">Labo</option>
+    </select>
+    <div *ngIf="rendezvousForm.get('lieu')?.invalid && rendezvousForm.get('lieu')?.dirty" class="invalid-feedback">
+      Le lieu est requis.
+    </div>
+  </div>
+
+  <!-- Champ Adresse (visible uniquement si lieu = domicile) -->
+  <div class="form-group" *ngIf="rendezvousForm.get('lieu')?.value === 'domicile'">
+    <label for="adresse">Adresse :</label>
+    <input type="text" id="adresse" formControlName="adresse" class="form-control">
+  </div>
+
+  <!-- Champ Notes (non obligatoire) -->
+  <div class="form-group">
+    <label for="notes">Notes :</label>
+    <textarea id="notes" formControlName="notes" class="form-control"></textarea>
+  </div>
+
+  <!-- Bouton pour soumettre -->
+  <button type="submit" class="btn btn-primary" [disabled]="rendezvousForm.invalid">
+    Prendre Rendez-vous
+  </button>
+</form>

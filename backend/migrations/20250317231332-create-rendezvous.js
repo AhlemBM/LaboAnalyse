@@ -9,10 +9,31 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      patientId: {
-        type: Sequelize.INTEGER
+      nom: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
-
+      prenom: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      numTel: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      adresse: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      testId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Tests",
+          key: "id",
+        },
+        onDelete: "CASCADE",
+      },
       dateHeure: {
         type: Sequelize.DATE
       },
@@ -21,6 +42,13 @@ module.exports = {
       },
       notes: {
         type: Sequelize.STRING
+      },
+      lieu: {  // Ajout du champ lieu
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          isIn: [['domicile', 'labo']] // Limiter aux valeurs "domicile" ou "labo"
+        }
       },
       createdAt: {
         allowNull: false,

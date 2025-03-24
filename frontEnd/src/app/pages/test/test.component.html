@@ -1,0 +1,27 @@
+<div *ngIf="tests.length > 0">
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nom</th>
+      <th>Description</th>
+      <th>Prix</th>
+      <th>Créé le</th>
+      <th>Mis à jour le</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let test of tests">
+      <td>{{ test.id }}</td>
+      <td>{{ test.nom }}</td> <!-- Afficher le nom du test -->
+      <td>{{ test.description }}</td> <!-- Afficher la description -->
+      <td>{{ test.prix }}</td> <!-- Afficher le prix -->
+      <td>{{ test.createdAt }}</td> <!-- Afficher la date de création -->
+      <td>{{ test.updatedAt }}</td> <!-- Afficher la date de mise à jour -->
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Afficher un message d'erreur si les tests ne sont pas chargés -->
+<div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
