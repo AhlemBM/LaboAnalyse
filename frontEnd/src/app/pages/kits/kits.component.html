@@ -1,0 +1,30 @@
+<!-- src/app/components/kit-list/kit-list.component.html -->
+<div class="container">
+  <h2>Liste des Kits</h2>
+
+  <div *ngIf="kits.length === 0">Aucun kit trouvé.</div>
+
+  <div *ngFor="let kit of kits" class="kit-card">
+    <div class="kit-image">
+      <img *ngIf="kit.img" [src]="kit.img" alt="Kit Image" />
+    </div>
+    <div class="kit-details">
+      <h3>{{ kit.nom }}</h3>
+      <p>{{ kit.description }}</p>
+      <p>Prix: {{ kit.prix }} DT</p>
+      <p>Stock: {{ kit.stock }}</p>
+
+      <!-- Champ pour la quantité -->
+      <label for="quantite">Quantité:</label>
+      <input type="number" [(ngModel)]="kit.quantite" min="1" max="{{ kit.stock }}" class="form-control" />
+
+      <!-- Bouton Commander -->
+      <button class="btn btn-primary mt-2" (click)="commander(kit)">Commander</button>
+    </div>
+  </div>
+
+  <!-- Bouton pour accéder au panier -->
+  <div class="text-center mt-4">
+    <a routerLink="/panier" class="btn btn-warning">🛒 Voir mon panier</a>
+  </div>
+</div>

@@ -8,6 +8,8 @@ import {LayoutComponent} from './components/layout/layout.component';
 import {ResultatsComponent} from './pages/resultats/resultats.component';
 import {RendezVousComponent} from './pages/rendez-vous/rendez-vous.component';
 import {TestComponent} from './pages/test/test.component';
+import {KitsComponent} from './pages/kits/kits.component';
+import {PanierComponent} from './pages/panier/panier.component';
 
 export const routes: Routes = [
   {path:'' ,component: HomeComponent} ,
@@ -22,6 +24,8 @@ export const routes: Routes = [
       { path: 'resultats', component: ResultatsComponent, data: { title: 'Resultats' } },
       { path: 'rendez-vous', component: RendezVousComponent , data: { title: 'Rendez-vous' } },
     { path: 'test', component: TestComponent , data: { title: 'test' } },
+    { path: 'kits', component: KitsComponent , data: { title: 'kits' } },
+      { path: 'panier', component: PanierComponent , data: { title: 'panier' } },
 
     ]
   }
