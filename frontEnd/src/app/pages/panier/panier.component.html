@@ -1,43 +1,19 @@
-<div class="container">
-  <h2>🛒 Mon Panier</h2>
+<!-- Confirmation de commande -->
+<div  class="confirmation-section">
+  <h3>📝 Confirmation de la commande</h3>
 
-  <div *ngIf="panier.length === 0">Votre panier est vide.</div>
+  <label for="adresse">Adresse de livraison :</label>
+  <textarea id="adresse" [(ngModel)]="adresse" class="form-control" rows="3" placeholder="Entrez votre adresse..."></textarea>
 
-  <table class="table" *ngIf="panier.length > 0">
-    <thead>
-    <tr>
-      <th>Image</th>
-      <th>Nom</th>
-      <th>Prix</th>
-      <th>Quantité</th>
-      <th>Total</th>
-      <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let item of panier">
-      <td><img *ngIf="item.kit.img" [src]="item.kit.img" alt="Kit Image" width="50"></td>
-      <td>{{ item.kit.nom }}</td>
-      <td>{{ item.kit.prix }} DT</td>
+  <h4>📦 Produits commandés :</h4>
+  <ul>
+    <li *ngFor="let item of panier">
+      {{ item.kit.nom }} - {{ item.quantite }} x {{ item.kit.prix }} DT = {{ (item.quantite * item.kit.prix).toFixed(2) }} DT
+    </li>
+  </ul>
 
-      <!-- Champ de saisie pour modifier la quantité -->
-      <td>
-        <input type="number" [(ngModel)]="item.quantite" min="1" (change)="updateQuantity(item)"/>
-      </td>
+  <p><strong>Total :</strong> {{ calculerTotal() }} DT</p>
 
-      <!-- Affichage du total pour chaque article -->
-      <td>{{ (item.kit.prix * item.quantite).toFixed(2) }} DT</td>
-
-      <td>
-        <button class="btn btn-danger" (click)="supprimerDuPanier(item.id)">🗑 Supprimer</button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-
-  <!-- Affichage du total du panier -->
-  <div *ngIf="panier.length > 0">
-    <h4>Total: {{ calculerTotal() }} DT</h4>
-    <button class="btn btn-success" (click)="validerCommande()">✅ Valider la commande</button>
-  </div>
+  <button class="btn btn-primary" (click)="confirmerCommande()">✅ Confirmer la commande</button>
+  <button class="btn btn-secondary ms-2" (click)="confirmationEnCours = false">❌ Annuler</button>
 </div>

@@ -36,7 +36,6 @@ export class KitsComponent implements OnInit {
       }
     );
   }
-
   commander(kit: any) {
     const userId = this.authService.getUserId(); // Récupérer l'ID de l'utilisateur connecté
 

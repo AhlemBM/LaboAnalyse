@@ -34,4 +34,8 @@ export class PanierService {
     return this.http.put(`${this.apiUrl}/update/${item.id}`, { quantite: item.quantite });
   }
 
+  validerCommande(data: { userId: string, adresse: string }) {
+    return this.http.post(`${this.apiUrl}/valider`, data);
+  }
+
 }

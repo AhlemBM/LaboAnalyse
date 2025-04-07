@@ -5,16 +5,20 @@ const userCtrl=require("../controllers/userCtrl")
 const testController = require("../controllers/testCtrl");
 const resultatCtrl = require("../controllers/resultatCtrl");
 const rendezvousCtrl = require('../controllers/rendez_vousCtrl');
+const kitController = require('../controllers/kitCtrl');
+const panierController = require('../controllers/panierCtrl');
+
 
 const router = express.Router();
+
 //auth routes
 router.post("/register", authCtrl.register);
 router.post("/login",authCtrl.login)
 
 //user routes
 router.get("/profile/:id",userCtrl.getProfile)
-// test routes
 
+// test routes
 router.post("/test/add", testController.addTest);
 router.delete("/test/delete/:id", testController.deleteTest);
 router.get("/test/all", testController.getAllTests);
@@ -23,7 +27,6 @@ router.get("/test/id/:id", testController.getTestById);
 router.put("/test/update/:id", testController.updateTest);
 
 //resultat routes
-
 router.post("/resultat/add", resultatCtrl.addResultat);
 router.get("/resultat/all", resultatCtrl.getAllResultats);
 router.get("/resultat/get/:id", resultatCtrl.getResultatById);
@@ -39,6 +42,23 @@ router.get("/rendezvous/:id", rendezvousCtrl.getRendezvousById);
 router.get("/rendezvous/patient/:numTel", rendezvousCtrl.getRendezvousByPatient);
 router.put("/rendezvous/update/:id", rendezvousCtrl.updateRendezvous);
 router.delete("/rendezvous/delete/:id", rendezvousCtrl.deleteRendezvous);
+
+//kits routes
+router.post('/kits/add', kitController.createKit);
+router.get('/kits/getAll', kitController.getAllKits);
+router.get('/kits/get/:id', kitController.getKitById);
+router.put('/kits/update/:id', kitController.updateKit);
+router.delete('/kits/delete/:id', kitController.deleteKit);
+
+// panier routes
+router.post('/panier/add', panierController.addToCart);
+router.get('/panier/get/:userId', panierController.getUserCart);
+router.delete('/panier/remove/:id', panierController.removeFromCart);
+router.delete('/panier/clear/:userId', panierController.clearCart);
+router.put('/panier/update/:panierId', panierController.updateQuantity);
+router.post('/panier/valider', panierController.validerCommande);
+
+
 
 
 module.exports = router;

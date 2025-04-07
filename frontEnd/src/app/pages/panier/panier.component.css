@@ -1,0 +1,165 @@
+/* Conteneur du panier */
+.container {
+  margin-top: 30px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  font-size: 2rem;
+}
+
+/* Table du panier */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  font-size: 1rem;
+}
+
+th {
+  background-color: #007bff;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f1f1f1;
+}
+
+td {
+  vertical-align: middle;
+}
+
+/* Image du kit */
+img {
+  border-radius: 5px;
+  max-width: 50px;
+}
+
+/* Boutons d'action */
+button {
+  font-size: 1rem;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: white;
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+}
+
+/* Total du panier */
+h4 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: 20px;
+  color: #333;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+ul li {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  resize: vertical;
+}
+
+/* Section de confirmation */
+.confirmation-section {
+  padding: 20px;
+  border: 1px solid #ddd;
+  background-color: #fafafa;
+  border-radius: 8px;
+}
+
+.confirmation-section h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.confirmation-section p {
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: bold;
+}
+
+.confirmation-section button {
+  font-size: 1.1rem;
+  margin: 10px 0;
+}
+
+.confirmation-section button:focus {
+  outline: none;
+}
+
+/* Texte d'information */
+.alert {
+  padding: 10px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+/* Pour le cas où le panier est vide */
+.empty-cart {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #ff6347;
+}

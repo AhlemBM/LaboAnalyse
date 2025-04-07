@@ -15,6 +15,9 @@ import { RouterModule } from '@angular/router';
 export class PanierComponent implements OnInit {
   panier: any[] = [];
   userId: string | null = null;
+  confirmationEnCours = false;
+  adresse = '';
+
 
   constructor(private panierService: PanierService, private authService: AuthService) {}
 
@@ -56,11 +59,36 @@ export class PanierComponent implements OnInit {
 
   // Valider la commande
   validerCommande() {
-    alert("Commande validée !");
-    this.panierService.viderPanier(this.userId).subscribe(() => {
+    this.confirmationEnCours = true;
+  }
+
+  confirmerCommande() {
+    if (!this.adresse.trim()) {
+      alert("Veuillez saisir une adresse de livraison.");
+      return;
+    }
+
+    // Vérifier que userId est bien défini
+    if (!this.userId) {
+      alert("Vous devez être connecté pour valider la commande.");
+      return;
+    }
+
+    const data = {
+      userId: this.userId,  // userId ne sera jamais null ici
+      adresse: this.adresse
+    };
+
+    this.panierService.validerCommande(data).subscribe(() => {
+      alert("Commande validée !");
       this.panier = [];
+      this.confirmationEnCours = false;
+      this.adresse = '';
+    }, error => {
+      console.error("Erreur lors de la validation de la commande", error);
     });
   }
+
   updateQuantity(item: any): void {
     // Vous pouvez appeler ici une API pour mettre à jour la quantité dans la base de données si nécessaire
     this.panierService.updatePanier(item).subscribe(response => {
