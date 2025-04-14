@@ -1,0 +1,51 @@
+<div class="container mt-4">
+  <h2>Liste des Tests</h2>
+  <button class="btn btn-primary mb-3" (click)="openModal()">Ajouter un test</button>
+
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Description</th>
+      <th>Prix</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let test of tests">
+      <td>{{ test.nom }}</td>
+      <td>{{ test.description }}</td>
+      <td>{{ test.prix }}</td>
+      <td>
+        <button class="btn btn-warning btn-sm" (click)="openModal(test)">Modifier</button>
+        <button class="btn btn-danger btn-sm" (click)="deleteTest(test.id)">Supprimer</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" *ngIf="showModal">
+    <div class="modal-box">
+      <h3>{{ editMode ? 'Modifier' : 'Ajouter' }} un Test</h3>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="mb-2">
+          <label>Nom</label>
+          <input type="text" class="form-control" formControlName="nom">
+        </div>
+        <div class="mb-2">
+          <label>Description</label>
+          <textarea class="form-control" formControlName="description"></textarea>
+        </div>
+        <div class="mb-2">
+          <label>Prix</label>
+          <input type="number" class="form-control" formControlName="prix">
+        </div>
+        <div class="text-end">
+          <button type="button" class="btn btn-secondary me-2" (click)="closeModal()">Annuler</button>
+          <button type="submit" class="btn btn-success">{{ editMode ? 'Modifier' : 'Ajouter' }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

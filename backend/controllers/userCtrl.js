@@ -1,14 +1,12 @@
-
 const { User } = require("../models");
-//getProfile
+
+
 const getProfile = async (req, res) => {
     try {
-        // Récupérer l'ID de l'utilisateur depuis le token JWT
         const userId = req.params.id;
 
-        // Chercher l'utilisateur dans la base de données
         const user = await User.findByPk(userId, {
-            attributes: ["id", "nom", "prenom", "email", "telephone", "dateNaissance"], // Exclure le mot de passe
+            attributes: ["id", "nom", "prenom", "email", "telephone", "dateNaissance"],
         });
 
         if (!user) {
@@ -21,11 +19,40 @@ const getProfile = async (req, res) => {
         res.status(500).json({ message: "Erreur serveur" });
     }
 };
-//getAll
-//getById
 
+// GET /users - Récupérer tous les utilisateurs
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.findAll({
+            attributes: ["id", "nom", "prenom", "email", "telephone", "dateNaissance"],
+        });
+        res.status(200).json({ users });
+    } catch (error) {
+        console.error("Erreur lors de la récupération des utilisateurs :", error);
+        res.status(500).json({ message: "Erreur serveur" });
+    }
+};
 
+// DELETE /users/:id - Supprimer un utilisateur par ID
+const deleteUser = async (req, res) => {
+    try {
+        const userId = req.params.id;
 
-module.exports = { getProfile };
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ message: "Utilisateur non trouvé" });
+        }
 
+        await user.destroy();
+        res.status(200).json({ message: "Utilisateur supprimé avec succès" });
+    } catch (error) {
+        console.error("Erreur lors de la suppression de l'utilisateur :", error);
+        res.status(500).json({ message: "Erreur serveur" });
+    }
+};
 
+module.exports = {
+    getProfile,
+    getAllUsers,
+    deleteUser,
+};

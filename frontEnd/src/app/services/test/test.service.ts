@@ -14,4 +14,17 @@ export class TestService {
   getAllTest(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/all`);
   }
+
+
+  add(test: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/add`, test);
+  }
+
+  update(id: number, test: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/update/${id}`, test);
+  }
+
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/delete/${id}`);
+  }
 }

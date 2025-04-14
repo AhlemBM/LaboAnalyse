@@ -16,4 +16,16 @@ export class KitsService {
     return this.http.get(`${this.apiUrl}/getAll`);
   }
 
+  add(kit: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/add`, kit);
+  }
+
+  update(id: number, kit: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/update/${id}`, kit);
+  }
+
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/delete/${id}`);
+  }
+
 }

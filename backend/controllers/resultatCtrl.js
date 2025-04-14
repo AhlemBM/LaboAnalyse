@@ -3,7 +3,7 @@ const path = require("path");
 const multer = require("multer");
 const { Resultat, User, Test } = require("../models");
 
-// Configuration de Multer pour l'upload des fichiers
+// Configuration de Multer pour l'upload des fichiers PDF
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         const uploadPath = path.join(__dirname, "../uploads/");
@@ -12,13 +12,14 @@ const storage = multer.diskStorage({
         }
         cb(null, uploadPath);
     },
-    filename: (req, file, cb) => { // ✅ Correction ici
+    filename: (req, file, cb) => {
         cb(null, Date.now() + "-" + file.originalname);
     }
 });
+
 const upload = multer({ storage }).single("analyse");
 
-// ✅ Ajouter un résultat avec un fichier d'analyse
+// Ajouter un résultat avec un fichier d'analyse (PDF)
 const addResultat = async (req, res) => {
     upload(req, res, async (err) => {
         if (err) {
@@ -52,10 +53,105 @@ const addResultat = async (req, res) => {
     });
 };
 
-// ✅ Récupérer les résultats d'un utilisateur
+// Télécharger un fichier d'analyse (PDF)
+const downloadanalyse = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const resultat = await Resultat.findByPk(id);
+        if (!resultat) {
+            return res.status(404).json({ message: "Fichier introuvable" });
+        }
+
+        const filePath = path.join(__dirname, "../uploads/", resultat.analyse);
+        if (!fs.existsSync(filePath)) {
+            return res.status(404).json({ message: "Fichier non trouvé" });
+        }
+
+        res.download(filePath, resultat.analyse);
+    } catch (error) {
+        console.error("Erreur lors du téléchargement :", error);
+        res.status(500).json({ message: "Erreur serveur" });
+    }
+};
+
+
+const deleteResultat = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const resultat = await Resultat.findByPk(id);
+
+        if (!resultat) {
+            return res.status(404).json({ message: "Résultat introuvable" });
+        }
+
+        const filePath = path.join(__dirname, "../uploads/", resultat.analyse);
+
+        // Vérifiez si le fichier existe avant de tenter de le supprimer
+        if (fs.existsSync(filePath)) {
+            // Utilisez la méthode asynchrone pour ne pas bloquer l'exécution
+            fs.unlink(filePath, (err) => {
+                if (err) {
+                    console.error("Erreur lors de la suppression du fichier:", err);
+                    return res.status(500).json({ message: "Erreur lors de la suppression du fichier" });
+                }
+
+                // Si la suppression du fichier réussit, supprimez le résultat de la base de données
+                resultat.destroy()
+                    .then(() => {
+                        res.status(200).json({ message: "Résultat supprimé avec succès" });
+                    })
+                    .catch((error) => {
+                        console.error("Erreur lors de la suppression du résultat:", error);
+                        res.status(500).json({ message: "Erreur lors de la suppression du résultat" });
+                    });
+            });
+        } else {
+            // Si le fichier n'existe pas, supprimez seulement le résultat dans la base de données
+            await resultat.destroy();
+            res.status(200).json({ message: "Résultat supprimé avec succès" });
+        }
+    } catch (error) {
+        console.error("Erreur lors de la suppression :", error);
+        res.status(500).json({ message: "Erreur serveur" });
+    }
+};
+// Obtenir tous les résultats
+const getAllResultats = async (req, res) => {
+    try {
+        const resultats = await Resultat.findAll({
+            include: [
+                { model: User, as: "patient" },
+                { model: Test, as: "test" }
+            ]
+        });
+        res.status(200).json(resultats);
+    } catch (err) {
+        console.error("Erreur lors de la récupération des résultats :", err);
+        res.status(500).json({ message: "Erreur serveur" });
+    }
+};
+
+// Obtenir un résultat par ID
+const getResultatById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const resultat = await Resultat.findByPk(id, {
+            include: [{ model: User, as: "patient" }, { model: Test, as: "test" }]
+        });
+        if (!resultat) {
+            return res.status(404).json({ message: "Résultat introuvable" });
+        }
+        res.status(200).json(resultat);
+    } catch (error) {
+        console.error("Erreur lors de la récupération du résultat :", error);
+        res.status(500).json({ message: "Erreur serveur" });
+    }
+};
+
+// ✅ Récupérer les résultats d'un utilisateur par patientId
 const getResultatsByUserId = async (req, res) => {
     try {
-        const { patientId } = req.params;
+        const { patientId } = req.params; // Récupérer l'ID du patient depuis les paramètres de la requête
         if (!patientId) {
             return res.status(400).json({ message: "ID utilisateur requis" });
         }
@@ -79,86 +175,11 @@ const getResultatsByUserId = async (req, res) => {
     }
 };
 
-// ✅ Télécharger un fichier d'analyse
-const downloadanalyse = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const resultat = await Resultat.findByPk(id);
-        if (!resultat) {
-            return res.status(404).json({ message: "Fichier introuvable" });
-        }
-
-        const filePath = path.join(__dirname, "../uploads/", resultat.analyse);
-        if (!fs.existsSync(filePath)) {
-            return res.status(404).json({ message: "Fichier non trouvé" });
-        }
-
-        res.download(filePath, resultat.analyse);
-    } catch (error) {
-        console.error("Erreur lors du téléchargement :", error);
-        res.status(500).json({ message: "Erreur serveur" });
-    }
-};
-
-// ✅ Supprimer un résultat
-const deleteResultat = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const resultat = await Resultat.findByPk(id);
-        if (!resultat) {
-            return res.status(404).json({ message: "Résultat introuvable" });
-        }
-
-        const filePath = path.join(__dirname, "../uploads/", resultat.analyse);
-        if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath); // Supprimer le fichier du serveur
-        }
-
-        await resultat.destroy();
-        res.status(200).json({ message: "Résultat supprimé avec succès" });
-    } catch (error) {
-        console.error("Erreur lors de la suppression :", error);
-        res.status(500).json({ message: "Erreur serveur" });
-    }
-};
-// get all results
-const getAllResultats=async (req,res)=>{
-    try {
-        const resultats = await Resultat.findAll({include:[   { model: User, as: "patient" },
-
-                { model: Test, as: "test" },]})
-        res.status(200).json(resultats)
-    }catch (err){
-        console.error("err lors de reccuperation",err)
-        res.status(500).json({message:"err  serveur "})
-    }
-}
-
-//  Récupérer un résultat par ID
-const getResultatById = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const resultat = await Resultat.findByPk(id, { include: [{ model: User, as: "patient" },
-
-                { model: Test, as: "test" }] });
-        if (!resultat) {
-            return res.status(404).json({ message: "Résultat introuvable" });
-        }
-        res.status(200).json(resultat);
-    } catch (error) {
-        console.error("Erreur lors de la récupération du résultat :", error);
-        res.status(500).json({ message: "Erreur serveur" });
-    }
-};
-
 module.exports = {
+    getResultatsByUserId,
     addResultat,
     getAllResultats,
     getResultatById,
     downloadanalyse,
-    deleteResultat,
-    getResultatsByUserId
+    deleteResultat
 };
-
-
-

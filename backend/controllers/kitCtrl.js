@@ -1,14 +1,38 @@
-const { Kit } = require('../models'); // Importation du modèle Kit
+const multer = require('multer');
+const path = require('path');
+const { Kit } = require('../models');
+
+// Configuration de Multer pour l'upload des fichiers
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        // Dossier où les fichiers seront stockés
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        // Création d'un nom de fichier unique
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage: storage });
 
 // Créer un nouveau Kit
 const createKit = async (req, res) => {
     try {
-        const { nom, description, prix, stock, img } = req.body;
+        const { nom, description, prix, stock } = req.body;
+        let img = '';
+
+        // Vérifier si l'image est présente
+        if (req.file) {
+            img = req.file.path; // Sauvegarde le chemin de l'image téléchargée
+        }
+
+        // Création du Kit avec ou sans image
         const newKit = await Kit.create({ nom, description, prix, stock, img });
-        res.status(201).json({ message: "Kit created successfully", kit: newKit });
+        res.status(201).json({ message: "Kit créé avec succès", kit: newKit });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Error creating Kit", error });
+        res.status(500).json({ message: "Erreur lors de la création du Kit", error });
     }
 };
 
@@ -19,7 +43,7 @@ const getAllKits = async (req, res) => {
         res.status(200).json(kits);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Error retrieving Kits", error });
+        res.status(500).json({ message: "Erreur lors de la récupération des Kits", error });
     }
 };
 
@@ -29,12 +53,12 @@ const getKitById = async (req, res) => {
         const kitId = req.params.id;
         const kit = await Kit.findByPk(kitId);
         if (!kit) {
-            return res.status(404).json({ message: "Kit not found" });
+            return res.status(404).json({ message: "Kit non trouvé" });
         }
         res.status(200).json(kit);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Error retrieving Kit", error });
+        res.status(500).json({ message: "Erreur lors de la récupération du Kit", error });
     }
 };
 
@@ -42,25 +66,29 @@ const getKitById = async (req, res) => {
 const updateKit = async (req, res) => {
     try {
         const kitId = req.params.id;
-        const { nom, description, prix, stock, img } = req.body;
-
+        const { nom, description, prix, stock } = req.body;
         const kit = await Kit.findByPk(kitId);
+
         if (!kit) {
-            return res.status(404).json({ message: "Kit not found" });
+            return res.status(404).json({ message: "Kit non trouvé" });
         }
 
+        // Vérification et mise à jour des champs
         kit.nom = nom || kit.nom;
         kit.description = description || kit.description;
         kit.prix = prix || kit.prix;
         kit.stock = stock || kit.stock;
-        kit.img = img || kit.img;
+
+        // Si une nouvelle image est envoyée, on met à jour l'image
+        if (req.file) {
+            kit.img = req.file.path;
+        }
 
         await kit.save();
-
-        res.status(200).json({ message: "Kit updated successfully", kit });
+        res.status(200).json({ message: "Kit mis à jour avec succès", kit });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Error updating Kit", error });
+        res.status(500).json({ message: "Erreur lors de la mise à jour du Kit", error });
     }
 };
 
@@ -71,14 +99,14 @@ const deleteKit = async (req, res) => {
         const kit = await Kit.findByPk(kitId);
 
         if (!kit) {
-            return res.status(404).json({ message: "Kit not found" });
+            return res.status(404).json({ message: "Kit non trouvé" });
         }
 
         await kit.destroy();
-        res.status(200).json({ message: "Kit deleted successfully" });
+        res.status(200).json({ message: "Kit supprimé avec succès" });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Error deleting Kit", error });
+        res.status(500).json({ message: "Erreur lors de la suppression du Kit", error });
     }
 };
 
@@ -87,5 +115,6 @@ module.exports = {
     getAllKits,
     getKitById,
     updateKit,
-    deleteKit
+    deleteKit,
+    upload  // Ajouter l'upload pour l'utilisation dans les routes
 };

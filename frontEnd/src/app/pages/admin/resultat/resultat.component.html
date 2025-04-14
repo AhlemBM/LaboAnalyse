@@ -1,0 +1,63 @@
+<div class="container mt-4">
+  <h2>Liste des Résultats</h2>
+  <button class="btn btn-primary mb-3" (click)="openModal()">Ajouter un résultat</button>
+
+  <!-- Liste des résultats -->
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>Nom du Patient</th>
+      <th>Test</th>
+      <th>Analyse</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let resultat of resultats">
+      <td>{{ resultat.patient.nom }} {{ resultat.patient.prenom }}</td>
+      <td>{{ resultat.test.nom }}</td>
+      <td>
+        <a (click)="download(resultat.id)" class="btn btn-info btn-sm">
+          Télécharger Analyse
+        </a>
+      </td>
+      <td>
+        <button class="btn btn-danger btn-sm" (click)="delete(resultat.id)">Supprimer</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Modal pour ajouter un résultat -->
+  <div class="modal-backdrop" *ngIf="showModal">
+    <div class="modal-box">
+      <h3>Ajouter un Résultat</h3>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="mb-2">
+          <label>Patient</label>
+          <select formControlName="patientId" class="form-control">
+            <option *ngFor="let patient of user" [value]="patient.id">
+              {{ patient.nom }} {{ patient.prenom }}
+            </option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label>Test</label>
+          <select formControlName="testId" class="form-control">
+            <option *ngFor="let test of tests" [value]="test.id">
+              {{ test.nom }}
+            </option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label>Analyse (PDF)</label>
+          <input type="file" class="form-control" (change)="onFileChange($event)" />
+        </div>
+        <div class="text-end">
+          <button type="button" class="btn btn-secondary me-2" (click)="closeModal()">Annuler</button>
+          <button type="submit" class="btn btn-success" [disabled]="!form.valid || !selectedFile">Ajouter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

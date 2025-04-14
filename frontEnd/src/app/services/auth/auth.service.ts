@@ -51,7 +51,13 @@ export class AuthService {
     console.log("token est"+token)
     return null;
   }
+  getAllUsers():  Observable<any> {
+    return this.http.get(`${this.apiUrl}/user/getAll`);
+  }
 
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/user/delete/${id}`);
+  }
 
 
 }

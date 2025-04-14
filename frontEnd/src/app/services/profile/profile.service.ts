@@ -7,7 +7,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class ProfileService {
 
-  private apiUrl = 'http://localhost:3000/api'; // 🔥 Modifier selon ton API
+  private apiUrl = 'http://localhost:3000/api'; //
 
   constructor(private http: HttpClient) {}
   getProfile(id: string): Observable<any> {

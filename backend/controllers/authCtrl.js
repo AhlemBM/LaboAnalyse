@@ -26,6 +26,7 @@ const register= async(req,res)=>{
             motDePasse: hashedPassword,
             telephone,
             dateNaissance,
+            role:"patient"
         });
 
         res.status(201).json({ message: "Inscription réussie !", user });
@@ -60,7 +61,8 @@ const login = async(req,res)=>{
                 nom:user.nom,
                 prenom:user.prenom,
                 email:user.email,
-                telephone :user.telephone
+                telephone :user.telephone,
+                role:user.role
             }
         })
     }catch (error){

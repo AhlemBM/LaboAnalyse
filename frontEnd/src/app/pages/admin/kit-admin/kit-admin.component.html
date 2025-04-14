@@ -1,0 +1,66 @@
+<div class="container mt-4">
+  <h2>Liste des Kits</h2>
+  <button class="btn btn-primary mb-3" (click)="openModal()">Ajouter un Kit</button>
+
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Description</th>
+      <th>Prix</th>
+      <th>Stock</th>
+      <th>Image</th>  <!-- Nouvelle colonne pour l'image -->
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let kit of kits">
+      <td>{{ kit.nom }}</td>
+      <td>{{ kit.description }}</td>
+      <td>{{ kit.prix }}</td>
+      <td>{{ kit.stock }}</td>
+      <td>
+        <!-- Affichage de l'image -->
+        <img *ngIf="kit.img" [src]="'http://localhost:3000/' + kit.img" alt="Image du Kit" style="width: 50px; height: 50px; object-fit: cover;" />
+      </td>
+      <td>
+        <button class="btn btn-warning btn-sm" (click)="openModal(kit)">Modifier</button>
+        <button class="btn btn-danger btn-sm" (click)="deleteKit(kit.id)">Supprimer</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" *ngIf="showModal">
+    <div class="modal-box">
+      <h3>{{ editMode ? 'Modifier' : 'Ajouter' }} un Kit</h3>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="mb-2">
+          <label>Nom</label>
+          <input type="text" class="form-control" formControlName="nom">
+        </div>
+        <div class="mb-2">
+          <label>Description</label>
+          <textarea class="form-control" formControlName="description"></textarea>
+        </div>
+        <div class="mb-2">
+          <label>Prix</label>
+          <input type="number" class="form-control" formControlName="prix">
+        </div>
+        <div class="mb-2">
+          <label>Stock</label>
+          <input type="number" class="form-control" formControlName="stock">
+        </div>
+        <div class="mb-2">
+          <label>Image</label>
+          <input type="file" class="form-control" (change)="onFileSelected($event)">
+        </div>
+        <div class="text-end">
+          <button type="button" class="btn btn-secondary me-2" (click)="closeModal()">Annuler</button>
+          <button type="submit" class="btn btn-success">{{ editMode ? 'Modifier' : 'Ajouter' }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

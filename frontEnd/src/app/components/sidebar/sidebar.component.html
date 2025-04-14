@@ -1,7 +1,4 @@
-<div class="sidebar" data-color="orange"  >
-  <!--
-    Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-  -->
+<div class="sidebar" data-color="orange">
   <div class="logo">
     <a href="http://www.creative-tim.com" class="simple-text logo-normal">
       Labo B.T.A
@@ -9,36 +6,87 @@
   </div>
   <div class="sidebar-wrapper" id="sidebar-wrapper">
     <ul class="nav">
-      <li class="active">
-        <a routerLink="/dashboard">
-          <i class="now-ui-icons design_app"></i>
-          <p>Dashboard</p>
-        </a>
-      </li>
-      <li>
-        <a routerLink="/rendez-vous">
-          <i class="now-ui-icons education_atom"></i>
-          <p>Rendez-vous</p>
-        </a>
-      </li>
-      <li>
-        <a routerLink="/kits">
-          <i class="now-ui-icons location_map-big"></i>
-          <p>Commandes</p>
-        </a>
-      </li>
-      <li>
-        <a routerLink="/resultats">
-          <i class="now-ui-icons ui-1_bell-53"></i>
-          <p>Resultats</p>
-        </a>
-      </li>
-      <li>
-        <a routerLink="/profile">
-          <i class="now-ui-icons users_single-02"></i>
-          <p>User Profile</p>
-        </a>
-      </li>
+
+      <!-- Sidebar pour ADMIN -->
+      <ng-container *ngIf="userRole === 'admin'">
+        <li class="active">
+          <a routerLink="/admin/dashboard">
+            <i class="now-ui-icons design_app"></i>
+            <p>Dashboard</p>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/admin/rendez-vous">
+            <i class="now-ui-icons education_atom"></i>
+            <p>Liste des Rendez-vous</p>
+          </a>
+        </li>
+        <li>
+          <a routerLink="admin/commande">
+            <i class="now-ui-icons location_map-big"></i>
+            <p>Liste des Commandes</p>
+          </a>
+        </li>
+        <li>
+          <a routerLink="admin/resultat">
+            <i class="now-ui-icons ui-1_bell-53"></i>
+            <p>Liste des Résultats</p>
+          </a>
+        </li>
+        <li>
+          <a routerLink="admin/test">
+            <i class="now-ui-icons ui-1_bell-53"></i>
+            <p>Liste des test</p>
+          </a>
+        </li>
+        <li>
+          <a routerLink="admin/kit">
+            <i class="now-ui-icons ui-1_bell-53"></i>
+            <p>Liste des kits</p>
+          </a>
+        </li>
+        <li>
+          <a routerLink="admin/user">
+            <i class="now-ui-icons ui-1_bell-53"></i>
+            <p>Liste des Utilisateurs</p>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/profile">
+            <i class="now-ui-icons users_single-02"></i>
+            <p>Mon profil</p>
+          </a>
+        </li>
+      </ng-container>
+
+      <!-- Sidebar pour PATIENT -->
+      <ng-container *ngIf="userRole === 'patient'">
+        <li class="active">
+          <a routerLink="/rendez-vous">
+            <i class="now-ui-icons education_atom"></i>
+            <p>Mes Rendez-vous</p>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/kits">
+            <i class="now-ui-icons location_map-big"></i>
+            <p>Mes Commandes</p>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/resultats">
+            <i class="now-ui-icons ui-1_bell-53"></i>
+            <p>Mes Résultats</p>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/profile">
+            <i class="now-ui-icons users_single-02"></i>
+            <p>Mon Profil</p>
+          </a>
+        </li>
+      </ng-container>
+
     </ul>
   </div>
 </div>

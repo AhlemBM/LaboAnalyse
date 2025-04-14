@@ -27,12 +27,13 @@ export class ProfileComponent  implements OnInit {
     // Vérifier si l'utilisateur est connecté
     if (this.authService.isUserLoggedIn()) {
       this.userId = this.authService.getUserId();
-      console.log('userid est'+this.userId)
+     // console.log('userid est'+this.userId)
       if (this.userId) {
         // Récupérer les informations du profil de l'utilisateur connecté
         this.profileService.getProfile(this.userId).subscribe(
           (data) => {
             this.userProfile = data;
+            console.log(data)
           },
           (error) => {
             console.error('Erreur lors de la récupération du profil:', error);

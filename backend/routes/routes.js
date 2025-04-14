@@ -7,7 +7,22 @@ const resultatCtrl = require("../controllers/resultatCtrl");
 const rendezvousCtrl = require('../controllers/rendez_vousCtrl');
 const kitController = require('../controllers/kitCtrl');
 const panierController = require('../controllers/panierCtrl');
+const multer = require('multer');
+const path = require('path');
 
+// Configuration de Multer pour l'upload des fichiers
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        // Dossier où les fichiers seront stockés
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        // Création d'un nom de fichier unique
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage: storage });
 
 const router = express.Router();
 
@@ -17,6 +32,8 @@ router.post("/login",authCtrl.login)
 
 //user routes
 router.get("/profile/:id",userCtrl.getProfile)
+router.get("/user/getAll", userCtrl.getAllUsers);
+router.delete("/user/delete/:id", userCtrl.deleteUser);
 
 // test routes
 router.post("/test/add", testController.addTest);
@@ -44,10 +61,11 @@ router.put("/rendezvous/update/:id", rendezvousCtrl.updateRendezvous);
 router.delete("/rendezvous/delete/:id", rendezvousCtrl.deleteRendezvous);
 
 //kits routes
-router.post('/kits/add', kitController.createKit);
-router.get('/kits/getAll', kitController.getAllKits);
+
+router.post('/kits/add', upload.single('img'), kitController.createKit);
+router.get('/kits/getAll', kitController.getAllKits)
 router.get('/kits/get/:id', kitController.getKitById);
-router.put('/kits/update/:id', kitController.updateKit);
+router.put('/kits/update/:id', upload.single('img'), kitController.updateKit);
 router.delete('/kits/delete/:id', kitController.deleteKit);
 
 // panier routes

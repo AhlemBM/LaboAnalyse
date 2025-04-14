@@ -24,13 +24,19 @@ export class LoginComponent {
 
   login() {
     this.authService.login(this.email, this.mdp).subscribe({
-      next: () => {
-        this.router.navigate(['/dashboard']);  // Rediriger vers la page après connexion
+      next: (res: any) => {
+        // Stocker le rôle dans le localStorage
+        const role = res.user?.role || 'user'; // sécuriser le fallback
+        localStorage.setItem('role', role);
+
+        this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         this.errorMessage = 'Invalid email or password';
         console.error(err);
       }
     });
-  }
+
+
+}
 }
