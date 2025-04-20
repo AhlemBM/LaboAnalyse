@@ -1,1 +1,41 @@
-<p>commande works!</p>
+<div class="p-4">
+  <h2 class="text-xl font-bold mb-4">Toutes les commandes</h2>
+
+  <div *ngIf="commandes.length === 0">Aucune commande trouvée.</div>
+
+  <div *ngFor="let commande of commandes" class="mb-4 p-4 border rounded shadow">
+    <p><strong>Commande #{{ commande.id }}</strong></p>
+    <p><strong>Client :</strong> {{ commande.User.prenom }} {{ commande.User.nom }}</p>
+    <p><strong>Adresse :</strong> {{ commande.adresse || 'Non renseignée' }}</p>
+    <p><strong>Date :</strong> {{ commande.dateCommande | date:'short' }}</p>
+
+    <p>
+      <strong>Statut :</strong>
+      <span [ngClass]="{
+        'text-yellow-600': commande.statut === 'en attente',
+        'text-green-600': commande.statut === 'confirmée'
+      }">{{ commande.statut }}</span>
+    </p>
+
+    <!-- Bouton de confirmation si en attente -->
+    <div *ngIf="commande.statut === 'en attente'" class="mt-2">
+      <button
+        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+        (click)="confirmerCommande(commande.id)">
+        Confirmer la commande
+      </button>
+    </div>
+
+    <div class="mt-4 space-y-2">
+      <div *ngFor="let detail of commande.CommandeDetails" class="flex items-center gap-4 border p-2 rounded">
+        <img [src]="detail.kit.img" alt="Kit Image" class="w-16 h-16 object-cover rounded" />
+        <div>
+          <p class="font-semibold">{{ detail.kit.nom }}</p>
+          <p>Quantité : {{ detail.quantite }}</p>
+          <p>Prix unitaire : {{ detail.prixUnitaire }} DT</p>
+          <p class="font-bold text-green-600">Total : {{ detail.quantite * detail.prixUnitaire | number:'1.2-2' }} DT</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

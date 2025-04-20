@@ -1,1 +1,34 @@
-<p>rendez-vous-list works!</p>
+<div class="rendezvous-container">
+  <h2>Liste des Rendez-vous</h2>
+
+  <table class="rendezvous-table">
+    <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Prénom</th>
+      <th>Téléphone</th>
+      <th>Date & Heure</th>
+      <th>Test</th>
+      <th>Statut</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let rdv of rendezvousList">
+      <td>{{ rdv.nom }}</td>
+      <td>{{ rdv.prenom }}</td>
+      <td>{{ rdv.numTel }}</td>
+      <td>{{ rdv.dateHeure | date:'short' }}</td>
+      <td>{{ rdv.test?.nom }}</td>
+      <td>
+          <span class="statut" [ngClass]="rdv.statut">
+            {{ rdv.statut }}
+          </span>
+      </td>
+      <td>
+        <button class="btn-statut" (click)="toggleStatut(rdv)">Changer</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

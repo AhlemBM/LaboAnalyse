@@ -144,6 +144,26 @@ const getRendezvousByPatient = async (req, res) => {
         res.status(500).json({ message: "Erreur serveur" });
     }
 };
+const getAllRendezvousAdmin = async (req, res) => {
+    try {
+        // Récupérer tous les rendez-vous et les regrouper par mois
+        const rendezvousList = await Rendezvous.findAll({
+            attributes: [
+                [sequelize.fn('DATE_FORMAT', sequelize.col('dateHeure'), '%Y-%m'), 'month'], // format 'YYYY-MM'
+                [sequelize.fn('COUNT', sequelize.col('id')), 'count'] // compter le nombre de rendez-vous par mois
+            ],
+            group: [sequelize.fn('DATE_FORMAT', sequelize.col('dateHeure'), '%Y-%m')],
+            order: [[sequelize.fn('DATE_FORMAT', sequelize.col('dateHeure'), '%Y-%m'), 'ASC']],
+            include: [{ model: Test, as: 'test' }]
+        });
+
+        res.status(200).json(rendezvousList);
+    } catch (err) {
+        console.error('Erreur lors de la récupération des rendez-vous', err);
+        res.status(500).json({ message: 'Erreur serveur' });
+    }
+};
+
 
 module.exports = {
     getRendezvousByPatient,
@@ -152,4 +172,5 @@ module.exports = {
     getRendezvousById,
     updateRendezvous,
     deleteRendezvous,
+    getAllRendezvousAdmin
 };

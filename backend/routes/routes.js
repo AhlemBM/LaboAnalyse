@@ -1,12 +1,14 @@
 const express = require("express");
 const authCtrl = require("../controllers/authCtrl");
 const userCtrl=require("../controllers/userCtrl")
+const commandeController = require('../controllers/commandeTestCtrl')
 
 const testController = require("../controllers/testCtrl");
 const resultatCtrl = require("../controllers/resultatCtrl");
 const rendezvousCtrl = require('../controllers/rendez_vousCtrl');
 const kitController = require('../controllers/kitCtrl');
 const panierController = require('../controllers/panierCtrl');
+const notificationController = require('../controllers/notificationctrl');
 const multer = require('multer');
 const path = require('path');
 
@@ -55,6 +57,7 @@ router.delete("/resultat/delete/:id", resultatCtrl.deleteResultat);
 //rendez-vous routes
 router.post("/rendezvous/create", rendezvousCtrl.createRendezvous);
 router.get("/rendezvous/all", rendezvousCtrl.getAllRendezvous);
+router.get("/rendezvous/allAdmin", rendezvousCtrl.getAllRendezvous);
 router.get("/rendezvous/:id", rendezvousCtrl.getRendezvousById);
 router.get("/rendezvous/patient/:numTel", rendezvousCtrl.getRendezvousByPatient);
 router.put("/rendezvous/update/:id", rendezvousCtrl.updateRendezvous);
@@ -75,7 +78,24 @@ router.delete('/panier/remove/:id', panierController.removeFromCart);
 router.delete('/panier/clear/:userId', panierController.clearCart);
 router.put('/panier/update/:panierId', panierController.updateQuantity);
 router.post('/panier/valider', panierController.validerCommande);
+router.get('/panier/all', panierController.getAllCommandes);
+router.put('/panier/:id/confirmer', panierController.confirmerCommande);
+router.get('/commandes/confirmed/stats', panierController.getConfirmedCommandesStats);
 
+
+
+//commande routes
+
+router.get('/commandes', commandeController.getAllCommandes);
+router.patch('/commandes/:id', commandeController.updateCommandeStatut);
+
+//notification
+
+
+router.post('/notification/add', notificationController.createNotification);
+router.get('/notification/get/:userId', notificationController.getUserNotifications);
+router.put('/notification/read/:id', notificationController.markAsRead);
+router.delete('/notification/delete/:id', notificationController.deleteNotification);
 
 
 

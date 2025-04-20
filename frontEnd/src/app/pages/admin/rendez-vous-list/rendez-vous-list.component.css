@@ -1,0 +1,64 @@
+.rendezvous-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.rendezvous-container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.rendezvous-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.rendezvous-table th,
+.rendezvous-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.rendezvous-table thead {
+  background-color: #e5e5e5;
+}
+
+.statut {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.statut.en\ attente {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.statut.confirmé {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.statut.annulé {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.btn-statut {
+  padding: 6px 12px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-statut:hover {
+  background-color: #0056b3;
+}

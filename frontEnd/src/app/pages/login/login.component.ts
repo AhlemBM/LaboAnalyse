@@ -29,14 +29,18 @@ export class LoginComponent {
         const role = res.user?.role || 'user'; // sécuriser le fallback
         localStorage.setItem('role', role);
 
-        this.router.navigate(['/dashboard']);
+        // Redirection en fonction du rôle
+        if (role === 'admin') {
+          this.router.navigate(['/admin/dashboard']);
+        } else {
+          this.router.navigate(['/dashboard']);
+        }
       },
       error: (err) => {
         this.errorMessage = 'Invalid email or password';
         console.error(err);
       }
     });
+  }
 
-
-}
 }
