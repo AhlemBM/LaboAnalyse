@@ -13,4 +13,7 @@ export class ProfileService {
   getProfile(id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/profile/${id}`);
   }
+  updateUser(id: string, userData: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/users/${id}`, userData);
+  }
 }

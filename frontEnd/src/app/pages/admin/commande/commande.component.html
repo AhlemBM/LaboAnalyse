@@ -28,7 +28,7 @@
 
     <div class="mt-4 space-y-2">
       <div *ngFor="let detail of commande.CommandeDetails" class="flex items-center gap-4 border p-2 rounded">
-        <img [src]="detail.kit.img" alt="Kit Image" class="w-16 h-16 object-cover rounded" />
+        <img [src]=" 'http://localhost:3000/'+ detail.kit.img" alt="Kit Image" class="w-16 h-16 object-cover rounded" />
         <div>
           <p class="font-semibold">{{ detail.kit.nom }}</p>
           <p>Quantité : {{ detail.quantite }}</p>

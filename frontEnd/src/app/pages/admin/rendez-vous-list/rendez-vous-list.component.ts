@@ -27,10 +27,22 @@ export class RendezVousListComponent {
   }
 
   toggleStatut(rdv: any): void {
-    const nouveauStatut = rdv.statut === 'en attente' ? 'confirmé' : 'en attente';
+    // Logique pour alterner entre 'en attente', 'confirmé' et 'validé'
+    let nouveauStatut: string;
+
+    if (rdv.statut === 'en attente') {
+      nouveauStatut = 'confirmé';
+    } else if (rdv.statut === 'confirmé') {
+      nouveauStatut = 'validé';
+    } else {
+      nouveauStatut = 'en attente';
+    }
+
+    // Mettre à jour le statut du rendez-vous via le service
     this.rdvService.updateStatut(rdv.id, nouveauStatut).subscribe(() => {
       rdv.statut = nouveauStatut;
     });
   }
+
 
 }

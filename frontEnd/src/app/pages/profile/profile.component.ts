@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth/auth.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {Subscription} from 'rxjs';
 import {ProfileService} from '../../services/profile/profile.service';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -16,6 +17,8 @@ export class ProfileComponent  implements OnInit {
 
   userProfile: any = {};
   userId: string | null = null;
+  isEditing: boolean = false;
+  editedProfile: any = {};
 
   constructor(
     private authService: AuthService,
@@ -33,6 +36,7 @@ export class ProfileComponent  implements OnInit {
         this.profileService.getProfile(this.userId).subscribe(
           (data) => {
             this.userProfile = data;
+            this.editedProfile = { ...data.user }; // Copie des données à modifier
             console.log(data)
           },
           (error) => {
@@ -46,7 +50,25 @@ export class ProfileComponent  implements OnInit {
       this.router.navigate(['/login']);
     }
   }
-  editProfile(){
+  editProfile() {
+    this.isEditing = true;
+  }
 
+  saveProfile() {
+
+    this.profileService.updateUser(this.userId!, this.editedProfile).subscribe({
+      next: (res) => {
+        this.userProfile.user = { ...this.editedProfile };
+        this.isEditing = false;
+      },
+      error: (err) => {
+        console.error('Erreur lors de la mise à jour du profil :', err);
+      }
+    });
+  }
+
+  cancelEdit() {
+    this.editedProfile = { ...this.userProfile.user };
+    this.isEditing = false;
   }
 }

@@ -1,29 +1,64 @@
 <div class="profile-container" *ngIf="userId">
   <div class="card card-user">
     <div class="image">
-      <img  [src]="'assets/img/bg5.jpg'" alt="...">
+      <img src="assets/img/bg5.jpg" alt="...">
     </div>
     <div class="card-body">
       <div class="author">
         <a href="#">
-          <img class="avatar border-gray" [src]=" 'assets/img/avatarProfile.png'"  alt="Avatar">
-          <h5 class="title">{{ userProfile.user.nom }} {{ userProfile.user.prenom }}</h5>
+          <img class="avatar border-gray" src="assets/img/avatarProfile.png" alt="Avatar">
+          <h5 class="title">
+            {{ userProfile.user.nom }} {{ userProfile.user.prenom }}
+          </h5>
         </a>
         <p class="description">{{ userProfile.user.email }}</p>
       </div>
+
       <div class="profile-info">
-        <div>
-          <label for="dateNaissance">Date de naissance:</label>
-          <p>{{ userProfile.user.dateNaissance | date }}</p>
+        <!-- Mode édition -->
+        <div *ngIf="isEditing; else viewMode">
+          <div class="form-group">
+            <label for="nom">Nom:</label>
+            <input [(ngModel)]="editedProfile.nom" class="form-control" type="text">
+          </div>
+          <div class="form-group">
+            <label for="prenom">Prénom:</label>
+            <input [(ngModel)]="editedProfile.prenom" class="form-control" type="text">
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input [(ngModel)]="editedProfile.email" class="form-control" type="email">
+          </div>
+          <div class="form-group">
+            <label for="dateNaissance">Date de naissance:</label>
+            <input [(ngModel)]="editedProfile.dateNaissance" class="form-control" type="date">
+          </div>
+          <div class="form-group">
+            <label for="telephone">Téléphone:</label>
+            <input [(ngModel)]="editedProfile.telephone" class="form-control" type="text">
+          </div>
+
+          <div class="text-center mt-3">
+            <button class="btn btn-success btn-round" (click)="saveProfile()">Enregistrer</button>
+            <button class="btn btn-secondary btn-round" (click)="cancelEdit()">Annuler</button>
+          </div>
         </div>
 
-        <div>
-          <label for="telephone">Téléphone:</label>
-          <p>{{ userProfile.user.telephone }}</p>
-        </div>
+        <!-- Mode affichage -->
+        <ng-template #viewMode>
+          <div>
+            <label>Date de naissance:</label>
+            <p>{{ userProfile.user.dateNaissance | date }}</p>
+          </div>
+          <div>
+            <label>Téléphone:</label>
+            <p>{{ userProfile.user.telephone }}</p>
+          </div>
+          <div class="text-center mt-3">
+            <button (click)="editProfile()" class="btn btn-neutral btn-round btn-lg">Modifier le profil</button>
+          </div>
+        </ng-template>
       </div>
-      <!-- Bouton de modification du profil -->
-      <button (click)="editProfile()" class="btn btn-neutral btn-round btn-lg">Modifier le profil</button>
     </div>
   </div>
 </div>

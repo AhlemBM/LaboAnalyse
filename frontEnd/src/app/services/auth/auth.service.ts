@@ -58,6 +58,13 @@ export class AuthService {
   deleteUser(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/user/delete/${id}`);
   }
+  getTestsParMois(userId: string) {
+    return this.http.get<any>(`${this.apiUrl}/patient/${userId}/tests-par-mois`);
+  }
+
+  getRendezVous(userId: string) {
+    return this.http.get<any>(`${this.apiUrl}/patient/${userId}/rendez-vous`);
+  }
 
 
 }

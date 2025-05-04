@@ -1,11 +1,12 @@
-const { Rendezvous, Test } = require('../models');
+const { Rendezvous, Test, User } = require('../models');
+const sequelize = require('sequelize');
 
 const createRendezvous = async (req, res) => {
     try {
-        const { nom, prenom, numTel, adresse, dateHeure, notes, testId, lieu } = req.body;
+        const { nom, prenom, numTel, adresse, dateHeure, notes, testId, lieu, userId } = req.body;
 
-        if (!nom || !prenom || !numTel || !adresse || !dateHeure || !testId || !lieu) {
-            return res.status(400).json({ message: "Nom, Prénom, NumTel, Adresse, DateHeure, TestId et Lieu sont requis." });
+        if (!nom || !prenom || !numTel || !adresse || !dateHeure || !testId || !lieu || !userId) {
+            return res.status(400).json({ message: "Nom, Prénom, NumTel, Adresse, DateHeure, TestId, Lieu et UserId sont requis." });
         }
 
         // Vérification du lieu
@@ -21,7 +22,8 @@ const createRendezvous = async (req, res) => {
             dateHeure,
             notes,
             testId,
-            lieu,  // Ajouter le lieu
+            lieu,
+            userId,  // Ajouter userId à la création du rendez-vous
             statut: 'en attente',
         });
 
@@ -35,13 +37,12 @@ const createRendezvous = async (req, res) => {
     }
 };
 
+// Récupérer un rendez-vous par son ID
 const getRendezvousById = async (req, res) => {
     const { id } = req.params;
     try {
         const rendezvous = await Rendezvous.findByPk(id, {
-            include: [
-                { model: Test, as: 'test' },
-            ]
+            include: [{ model: Test, as: 'test' }, { model: User, as: 'user' }]
         });
 
         if (!rendezvous) {
@@ -55,10 +56,11 @@ const getRendezvousById = async (req, res) => {
     }
 };
 
+// Récupérer tous les rendez-vous
 const getAllRendezvous = async (req, res) => {
     try {
         const rendezvousList = await Rendezvous.findAll({
-            include: [{ model: Test, as: 'test' }],
+            include: [{ model: Test, as: 'test' }, { model: User, as: 'user' }]
         });
         res.status(200).json(rendezvousList);
     } catch (err) {
@@ -67,6 +69,7 @@ const getAllRendezvous = async (req, res) => {
     }
 };
 
+// Mise à jour du rendez-vous
 const updateRendezvous = async (req, res) => {
     try {
         const { id } = req.params;
@@ -102,6 +105,7 @@ const updateRendezvous = async (req, res) => {
     }
 };
 
+// Suppression d'un rendez-vous
 const deleteRendezvous = async (req, res) => {
     try {
         const { id } = req.params;
@@ -120,33 +124,33 @@ const deleteRendezvous = async (req, res) => {
     }
 };
 
+// Récupérer les rendez-vous d'un patient par son numéro de téléphone
 const getRendezvousByPatient = async (req, res) => {
+    const { userId } = req.params;
+
     try {
-        const { numTel } = req.params;
-
-        // Vérifier si le numéro de téléphone correspond à l'utilisateur connecté
-        if (numTel !== req.user.numTel) {
-            return res.status(403).json({ message: "Accès interdit : vous ne pouvez voir que vos propres rendez-vous." });
-        }
-
         const rendezvous = await Rendezvous.findAll({
-            where: { numTel },
-            include: [{ model: Test, as: 'test' }],
+            where: { userId },
+            include: [
+                {
+                    model: Test,
+                    as: 'test', // 👈 très important si tu as mis "as: 'test'" dans l'association
+                    attributes: ['nom']
+                }
+            ],
+            order: [['dateHeure', 'ASC']]
         });
-
-        if (!rendezvous.length) {
-            return res.status(404).json({ message: "Aucun rendez-vous trouvé pour ce numéro." });
-        }
 
         res.status(200).json(rendezvous);
     } catch (error) {
-        console.error("Erreur lors de la récupération des rendez-vous:", error);
-        res.status(500).json({ message: "Erreur serveur" });
+        console.error('Erreur lors de la récupération des rendez-vous :', error);
+        res.status(500).json({ message: 'Erreur serveur' });
     }
 };
+
+// Récupérer les rendez-vous de l'administrateur (regroupés par mois)
 const getAllRendezvousAdmin = async (req, res) => {
     try {
-        // Récupérer tous les rendez-vous et les regrouper par mois
         const rendezvousList = await Rendezvous.findAll({
             attributes: [
                 [sequelize.fn('DATE_FORMAT', sequelize.col('dateHeure'), '%Y-%m'), 'month'], // format 'YYYY-MM'
@@ -164,13 +168,43 @@ const getAllRendezvousAdmin = async (req, res) => {
     }
 };
 
+// Méthode pour récupérer les rendez-vous validés
+// Récupérer les rendez-vous validés d'un utilisateur
+const getValidRendezvous = async (req, res) => {
+    const { userId } = req.params;  // Assurez-vous d'obtenir le userId du paramètre ou de la session
+
+    try {
+        // Requête pour récupérer les rendez-vous validés de l'utilisateur
+        const validRendezvous = await Rendezvous.findAll({
+            where: {
+                userId: userId,  // Utiliser l'ID de l'utilisateur pour filtrer
+                statut: 'validé'  // Filtrer par le statut validé
+            },
+            include: [
+                {
+                    model: Test,
+                    as: 'test',  // Assurez-vous que vous avez une association avec le modèle Test
+                    attributes: ['nom']
+                }
+            ],
+            order: [['dateHeure', 'ASC']]  // Optionnel : Trier par date ascendante
+        });
+
+        res.status(200).json(validRendezvous);  // Retourner les rendez-vous validés
+    } catch (error) {
+        console.error('Erreur lors de la récupération des rendez-vous validés:', error);
+        res.status(500).json({ message: 'Erreur serveur' });
+    }
+};
+
 
 module.exports = {
-    getRendezvousByPatient,
     createRendezvous,
-    getAllRendezvous,
     getRendezvousById,
+    getAllRendezvous,
     updateRendezvous,
     deleteRendezvous,
-    getAllRendezvousAdmin
+    getRendezvousByPatient,
+    getAllRendezvousAdmin,
+    getValidRendezvous
 };

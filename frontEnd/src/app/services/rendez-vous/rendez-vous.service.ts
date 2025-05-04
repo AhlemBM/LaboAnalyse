@@ -16,7 +16,7 @@ export class RendezVousService {
   }
 
   // Récupérer les rendez-vous d'un patient
-  getRendezvousByPatientId(patientId: number): Observable<any> {
+  getRendezvousByPatientId(patientId: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/patient/${patientId}`);
   }
 
@@ -26,5 +26,9 @@ export class RendezVousService {
 
   updateStatut(id: number, statut: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/update/${id}`, { statut });
+  }
+  // Méthode pour récupérer les rendez-vous validés
+  getValidRendezvous(userId:string): Observable<any> {
+    return this.http.get<any[]>(`${this.apiUrl}/valides/${userId}`);
   }
 }

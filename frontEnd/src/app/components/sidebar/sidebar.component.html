@@ -62,15 +62,21 @@
       <!-- Sidebar pour PATIENT -->
       <ng-container *ngIf="userRole === 'patient'">
         <li class="active">
+          <a routerLink="/dashboard">
+            <i class="now-ui-icons education_atom"></i>
+            <p>Dashboard </p>
+          </a>
+        </li>
+        <li>
           <a routerLink="/rendez-vous">
             <i class="now-ui-icons education_atom"></i>
-            <p>Mes Rendez-vous</p>
+            <p>Rendez-vous</p>
           </a>
         </li>
         <li>
           <a routerLink="/kits">
             <i class="now-ui-icons location_map-big"></i>
-            <p>Mes Commandes</p>
+            <p>Liste de kits</p>
           </a>
         </li>
         <li>

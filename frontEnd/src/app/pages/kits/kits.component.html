@@ -6,7 +6,10 @@
 
   <div *ngFor="let kit of kits" class="kit-card">
     <div class="kit-image">
-      <img *ngIf="kit.img" [src]="kit.img" alt="Kit Image" />
+      <img *ngIf="kit.img" [src]="'http://localhost:3000/' + kit.img" alt="Kit Image" />
+
+
+
     </div>
     <div class="kit-details">
       <h3>{{ kit.nom }}</h3>

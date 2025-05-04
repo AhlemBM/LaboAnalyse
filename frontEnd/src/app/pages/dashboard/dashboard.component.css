@@ -1,0 +1,191 @@
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f7fa;
+  color: #333;
+}
+
+.dashboard {
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 1200px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Titles */
+h2 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-size: 1.6em;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* User Rendezvous Section */
+.user-rendezvous {
+  margin-bottom: 30px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.table th, .table td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+}
+
+.table th {
+  background-color: #34495e;
+  color: #fff;
+}
+
+.table td {
+  background-color: #f9f9f9;
+}
+
+/* Statistiques Section */
+.valid-rendezvous-stats {
+  background-color: #ecf0f1;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 30px;
+}
+
+.valid-rendezvous-stats p {
+  font-size: 1.2em;
+  color: #34495e;
+  margin-bottom: 10px;
+}
+
+/* Graphique Section */
+.chart-container {
+  margin-top: 40px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.chart-container canvas {
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 10px;
+  }
+
+  .table th, .table td {
+    padding: 8px;
+  }
+
+  .valid-rendezvous-stats p {
+    font-size: 1em;
+  }
+
+  .chart-container {
+    padding: 20px;
+  }
+}
+.calendar {
+  margin-top: 30px;
+  background-color: #f0f2f5;
+  padding: 20px;
+  border-radius: 12px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.calendar-header h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #2c3e50;
+}
+
+.calendar-header button {
+  background: #1abc9c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.calendar-header button:hover {
+  background: #16a085;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.calendar-day {
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+  min-height: 80px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9em;
+  transition: transform 0.2s;
+}
+
+.calendar-day:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.calendar-date {
+  font-weight: bold;
+  color: #34495e;
+  margin-bottom: 5px;
+}
+
+
+.calendar-events span {
+  display: inline-block;
+  margin: 2px;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  color: white;
+}
+
+.rdv-confirmed {
+  background-color: #FDE047; /* Jaune plus clair (confirmé) */
+}
+
+
+.rdv-pending {
+  background-color: #FB923C; /* Orange (en attente) */
+}
+
+.rdv-valid {
+  background-color: #3B82F6; /* Bleu (validé) */
+}
+
+.rdv-cancelled {
+  background-color: #EF4444; /* Rouge (annulé) */
+}

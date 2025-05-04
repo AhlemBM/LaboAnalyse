@@ -36,6 +36,7 @@ router.post("/login",authCtrl.login)
 router.get("/profile/:id",userCtrl.getProfile)
 router.get("/user/getAll", userCtrl.getAllUsers);
 router.delete("/user/delete/:id", userCtrl.deleteUser);
+router.put('/users/:id', userCtrl.updateProfile);
 
 // test routes
 router.post("/test/add", testController.addTest);
@@ -44,6 +45,7 @@ router.get("/test/all", testController.getAllTests);
 router.get("/test/name/:nom", testController.getTestByName);
 router.get("/test/id/:id", testController.getTestById);
 router.put("/test/update/:id", testController.updateTest);
+//router.get('/patient/:id/tests-par-mois', testController.getTestsParMois);
 
 //resultat routes
 router.post("/resultat/add", resultatCtrl.addResultat);
@@ -59,9 +61,11 @@ router.post("/rendezvous/create", rendezvousCtrl.createRendezvous);
 router.get("/rendezvous/all", rendezvousCtrl.getAllRendezvous);
 router.get("/rendezvous/allAdmin", rendezvousCtrl.getAllRendezvous);
 router.get("/rendezvous/:id", rendezvousCtrl.getRendezvousById);
-router.get("/rendezvous/patient/:numTel", rendezvousCtrl.getRendezvousByPatient);
+router.get("/rendezvous/patient/:userId", rendezvousCtrl.getRendezvousByPatient);
 router.put("/rendezvous/update/:id", rendezvousCtrl.updateRendezvous);
 router.delete("/rendezvous/delete/:id", rendezvousCtrl.deleteRendezvous);
+router.get('/rendezvous/valides/:userId',  rendezvousCtrl.getValidRendezvous);
+//router.get('/patient/:id/rendez-vous', rendezvousCtrl.getRendezVousPatient);
 
 //kits routes
 

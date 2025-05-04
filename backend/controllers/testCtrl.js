@@ -1,4 +1,6 @@
-const { Test } = require("../models");
+const { Test, User } = require("../models");
+
+const { Op, fn, col } = require('sequelize');
 
 // ✅ 1. Ajouter un test
 const addTest = async (req, res) => {
@@ -107,6 +109,28 @@ const updateTest = async (req, res) => {
     }
 };
 
+
+/*const getTestsParMois = async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        const tests = await Test.findAll({
+            where: { userId },
+            attributes: [
+                [fn('MONTH', col('createdAt')), 'mois'],
+                [fn('COUNT', '*'), 'nombre']
+            ],
+            group: [fn('MONTH', col('createdAt'))],
+            order: [[fn('MONTH', col('createdAt')), 'ASC']]
+        });
+
+        res.status(200).json({ tests });
+    } catch (error) {
+        console.error('Erreur tests par mois:', error);
+        res.status(500).json({ message: 'Erreur serveur' });
+    }
+};*/
+
 // 🔗 Export des fonctions
 module.exports = {
     addTest,
@@ -114,5 +138,6 @@ module.exports = {
     getAllTests,
     getTestByName,
     getTestById,
-    updateTest
+    updateTest,
+   // getTestsParMois
 };

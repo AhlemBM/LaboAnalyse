@@ -43,12 +43,20 @@ module.exports = {
       notes: {
         type: Sequelize.STRING
       },
-      lieu: {  // Ajout du champ lieu
+      lieu: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
           isIn: [['domicile', 'labo']] // Limiter aux valeurs "domicile" ou "labo"
         }
+      },
+      userId: {  // Ajout du champ userId
+        type: Sequelize.INTEGER,  // Ou INTEGER, selon vos besoins
+        allowNull: false,
+        references: {
+          model: "Users",
+          key: "id",
+        },// Vous pouvez ajuster si c'est nullable ou non
       },
       createdAt: {
         allowNull: false,

@@ -18,9 +18,14 @@ import {DashAdminComponent} from './pages/admin/dash-admin/dash-admin.component'
 import {ListUserComponent} from './pages/admin/list-user/list-user.component';
 import {TestAdminComponent} from './pages/admin/test-admin/test-admin.component';
 import {KitAdminComponent} from './pages/admin/kit-admin/kit-admin.component';
+import {AproposComponent} from './siteVitrine/apropos/apropos.component';
+import {ServiceComponent} from './siteVitrine/service/service.component';
 
 export const routes: Routes = [
   {path:'' ,component: HomeComponent} ,
+  { path: 'about', component: AproposComponent },
+  { path: 'services', component: ServiceComponent },
+
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
