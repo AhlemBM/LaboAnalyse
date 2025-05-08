@@ -21,6 +21,12 @@ module.exports = {
       adresse: {
         type: Sequelize.STRING
       },
+      nom: {
+        type: Sequelize.STRING
+      },
+      numTel: {
+        type: Sequelize.STRING
+      },
       dateCommande: {
         type: Sequelize.DATE
       },

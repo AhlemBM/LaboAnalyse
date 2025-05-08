@@ -97,7 +97,7 @@ const panierController = {
 
     validerCommande :async (req, res) => {
         try {
-            const {userId, adresse} = req.body;
+            const {userId, adresse, nom , numTel} = req.body;
 
             // 1. Récupérer les éléments du panier de l'utilisateur
             const panierItems = await Panier.findAll({
@@ -121,7 +121,10 @@ const panierController = {
             // 3. Créer la commande
             const commande = await Commande.create({
                 userId,
-                adresse,
+                adresse
+                , nom , numTel,
+
+
                 dateCommande: new Date(),
                 statut: 'en attente'
             });

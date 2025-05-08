@@ -36,8 +36,8 @@ export class PanierService {
   }
 
   // Valider la commande (en envoyant userId et adresse)
-  validerCommande(data: { userId: string, adresse: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/valider`, data);
+  validerCommande(commande:any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/valider`, commande);
   }
 
   // Récupérer toutes les commandes

@@ -22,6 +22,8 @@ export class RendezVousComponent implements OnInit {
   successMessage = '';
   errorMessage = '';
   userId: string | null = null;  // Variable pour stocker le userId
+  messageSuccess: string | null = null;
+
 
   constructor(
     private fb: FormBuilder,
@@ -72,6 +74,7 @@ export class RendezVousComponent implements OnInit {
     this.rendezvousService.addRendezvous(formValues).subscribe(
       (response) => {
         this.successMessage = 'Rendez-vous pris avec succès';
+        this.messageSuccess = "✅ Rendez-vous pris avec succès !";
         this.rendezvousForm.reset();  // Réinitialiser le formulaire après succès
       },
       (error) => {

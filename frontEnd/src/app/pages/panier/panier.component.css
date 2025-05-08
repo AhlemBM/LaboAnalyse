@@ -163,3 +163,15 @@ textarea {
   font-size: 1.2rem;
   color: #ff6347;
 }
+.confirmation-section {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.table td,
+.table th {
+  text-align: center;
+  vertical-align: middle;
+}

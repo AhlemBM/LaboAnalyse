@@ -4,13 +4,15 @@ import {CommonModule} from '@angular/common';
 import {HeaderComponent} from '../header/header.component';
 import {FooterComponent} from '../footer/footer.component';
 import {FormsModule,  ReactiveFormsModule} from '@angular/forms';
+import {RendezVousComponent} from '../../pages/rendez-vous/rendez-vous.component';
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [ FormsModule,RouterModule ,RouterOutlet  ,
-    CommonModule,HeaderComponent, FooterComponent, ReactiveFormsModule, RouterModule],
+    CommonModule,HeaderComponent, FooterComponent, ReactiveFormsModule, RouterModule,
+  RendezVousComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

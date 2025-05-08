@@ -62,9 +62,35 @@ const updateCommandeStatut = async (req, res) => {
         res.status(500).json({ message: "Erreur serveur" });
     }
 };
+const getMesCommandes = async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        const commandes = await Commande.findAll({
+            where: { userId },
+            include: [
+                {
+                    model: CommandeDetail,
+                    include: [{
+                        model: Kit,
+                        as: 'kit',
+                        attributes: ['nom', 'image', 'prix']
+                    }]
+                }
+            ],
+            order: [['createdAt', 'DESC']]
+        });
+
+        res.status(200).json(commandes);
+    } catch (error) {
+        console.error("Erreur lors de la récupération des commandes de l'utilisateur :", error);
+        res.status(500).json({ message: "Erreur serveur" });
+    }
+};
 
 module.exports = {
 
     getAllCommandes,
-    updateCommandeStatut
+    updateCommandeStatut,
+    getMesCommandes
 };

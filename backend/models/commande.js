@@ -18,6 +18,8 @@ module.exports = (sequelize, DataTypes) => {
   Commande.init({
     userId: DataTypes.INTEGER,
     adresse: DataTypes.STRING,
+    nom: DataTypes.STRING,
+    numTel: DataTypes.STRING,
     dateCommande: DataTypes.DATE,
     statut: DataTypes.STRING
   }, {

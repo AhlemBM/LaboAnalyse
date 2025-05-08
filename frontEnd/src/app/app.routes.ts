@@ -20,11 +20,14 @@ import {TestAdminComponent} from './pages/admin/test-admin/test-admin.component'
 import {KitAdminComponent} from './pages/admin/kit-admin/kit-admin.component';
 import {AproposComponent} from './siteVitrine/apropos/apropos.component';
 import {ServiceComponent} from './siteVitrine/service/service.component';
+import {PaiementComponent} from './pages/paiement/paiement.component';
 
 export const routes: Routes = [
   {path:'' ,component: HomeComponent} ,
   { path: 'about', component: AproposComponent },
   { path: 'services', component: ServiceComponent },
+  { path: 'rendez-vous', component: RendezVousComponent , data: { title: 'Rendez-vous' } },
+
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -39,6 +42,7 @@ export const routes: Routes = [
     { path: 'test', component: TestComponent , data: { title: 'test' } },
     { path: 'kits', component: KitsComponent , data: { title: 'kits' } },
       { path: 'panier', component: PanierComponent , data: { title: 'panier' } },
+      { path: 'paiement', component: PaiementComponent , data: { title: 'paiement' } },
 
 
       { path: 'admin/resultat', component: ResultatComponent},

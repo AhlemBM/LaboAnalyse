@@ -92,6 +92,8 @@ router.get('/commandes/confirmed/stats', panierController.getConfirmedCommandesS
 
 router.get('/commandes', commandeController.getAllCommandes);
 router.patch('/commandes/:id', commandeController.updateCommandeStatut);
+router.get('/commande/mesCommandes/:id', commandeController.getMesCommandes);
+
 
 //notification
 

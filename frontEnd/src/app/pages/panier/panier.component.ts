@@ -3,7 +3,7 @@ import { PanierService } from '../../services/panier/panier.service';
 import { AuthService } from '../../services/auth/auth.service'; // Importer le service AuthService
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import {Router, RouterModule} from '@angular/router';
 
 @Component({
   selector: 'app-panier',
@@ -19,7 +19,8 @@ export class PanierComponent implements OnInit {
   adresse = '';
 
 
-  constructor(private panierService: PanierService, private authService: AuthService) {}
+  constructor(private panierService: PanierService, private authService: AuthService,
+  private router: Router) {}
 
   ngOnInit(): void {
     this.userId = this.authService.getUserId(); // Récupérer l'ID de l'utilisateur connecté à partir du service AuthService
@@ -97,5 +98,24 @@ export class PanierComponent implements OnInit {
       console.error("Erreur lors de la mise à jour de la quantité", error);
     });
   }
+  modifierQuantite(index: number, delta: number) {
+    const item = this.panier[index];
+    const nouvelleQuantite = item.quantite + delta;
+    if (nouvelleQuantite > 0) {
+      item.quantite = nouvelleQuantite;
+    }
+  }
+
+  supprimerArticle(index: number) {
+    this.panier.splice(index, 1);
+  }
+
+  allerPaiement() {
+    this.router.navigate(['/paiement']);
+  }
+  annuler() {
+    this.router.navigate(['/kits']);
+  }
+
 
 }
