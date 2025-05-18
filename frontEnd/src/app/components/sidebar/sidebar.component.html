@@ -52,6 +52,16 @@
           </a>
         </li>
         <li>
+        <a routerLink="admin/messages">
+          <i class="now-ui-icons ui-1_email-85"></i>
+          <p>
+            Messages
+            <span *ngIf="unreadCount > 0" class="badge bg-danger ms-2">{{ unreadCount }}</span>
+          </p>
+        </a>
+      </li>
+
+        <li>
           <a routerLink="/profile">
             <i class="now-ui-icons users_single-02"></i>
             <p>Mon profil</p>
@@ -91,6 +101,7 @@
             <p>Mes Résultats</p>
           </a>
         </li>
+
         <li>
           <a routerLink="/profile">
             <i class="now-ui-icons users_single-02"></i>

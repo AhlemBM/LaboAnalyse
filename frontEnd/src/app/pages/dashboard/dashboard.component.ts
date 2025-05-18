@@ -5,13 +5,14 @@ import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import {ContactUserComponent} from '../contact-user/contact-user.component';
 
 Chart.register(...registerables);
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FormsModule, CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, RouterModule, ContactUserComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })

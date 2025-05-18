@@ -1,0 +1,40 @@
+<!-- Liste des messages -->
+<div class="p-4 mb-4">
+  <h2>Boîte de réception</h2>
+
+  <div *ngIf="notifications.length > 0" class="mb-4 text-yellow-600 font-bold">
+    Vous avez {{ notifications.length }} nouveau(x) message(s).
+  </div>
+
+  <div *ngFor="let msg of messages" (click)="readMessage(msg)"
+       class="p-4 border rounded mb-4 shadow cursor-pointer relative"
+       [ngClass]="{'font-bold': !msg.isRead}">
+
+    <!-- 🔵 Indicateur si message non lu -->
+    <div *ngIf="!msg.isRead" class="absolute top-2 right-2 w-3 h-3 bg-red-500 rounded-full animate-ping"></div>
+
+    <div class="flex justify-between items-center">
+      <p class="font-semibold text-primary">{{ msg.name }}</p>
+      <small class="text-sm">{{ msg.createdAt | date: 'short' }}</small>
+    </div>
+
+
+    <p class="mt-2 text-right" [ngClass]="msg.isRead ? 'text-green-600' : 'text-yellow-600'">
+      {{ msg.isRead ? 'Lu' : 'Non lu' }}
+    </p>
+  </div>
+
+<!-- Modal affiché quand un message est sélectionné -->
+<div *ngIf="selectedMessage" class="modal-overlay">
+  <div class="modal-content">
+    <h3 class="text-xl font-bold mb-2">Détails du message</h3>
+    <p><strong>Nom :</strong> {{ selectedMessage.name }}</p>
+    <p><strong>Email :</strong> {{ selectedMessage.email }}</p>
+    <p><strong>Date :</strong> {{ selectedMessage.createdAt | date: 'short' }}</p>
+    <p class="mt-4"><strong>Message :</strong></p>
+    <p>{{ selectedMessage.message }}</p>
+
+    <button class="modal-close-btn" (click)="closeModal()">Fermer</button>
+  </div>
+</div>
+

@@ -21,12 +21,13 @@ import {KitAdminComponent} from './pages/admin/kit-admin/kit-admin.component';
 import {AproposComponent} from './siteVitrine/apropos/apropos.component';
 import {ServiceComponent} from './siteVitrine/service/service.component';
 import {PaiementComponent} from './pages/paiement/paiement.component';
+import {ContactUserComponent} from './pages/contact-user/contact-user.component';
+import {ContactComponent} from './pages/admin/contact/contact.component';
 
 export const routes: Routes = [
   {path:'' ,component: HomeComponent} ,
   { path: 'about', component: AproposComponent },
   { path: 'services', component: ServiceComponent },
-  { path: 'rendez-vous', component: RendezVousComponent , data: { title: 'Rendez-vous' } },
 
 
   { path: 'login', component: LoginComponent },
@@ -35,6 +36,8 @@ export const routes: Routes = [
   {
     path: '', component: LayoutComponent, children: [
       { path: 'dashboard', component: DashboardComponent, data: { title: 'Dashboard' } },
+      { path: 'contact', component: ContactUserComponent },
+      { path: 'rendez-vous', component: RendezVousComponent , data: { title: 'Rendez-vous' } },
 
       { path: 'profile', component: ProfileComponent , data: { title: 'Pofile' }},
       { path: 'resultats', component: ResultatsComponent, data: { title: 'Resultats' } },
@@ -52,6 +55,8 @@ export const routes: Routes = [
       { path: 'admin/user', component: ListUserComponent },
       { path: 'admin/test', component: TestAdminComponent },
       { path: 'admin/kit', component: KitAdminComponent },
+      { path: 'admin/messages', component: ContactComponent },
+
 
 
 

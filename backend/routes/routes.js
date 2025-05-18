@@ -2,6 +2,7 @@ const express = require("express");
 const authCtrl = require("../controllers/authCtrl");
 const userCtrl=require("../controllers/userCtrl")
 const commandeController = require('../controllers/commandeTestCtrl')
+const { Message } = require('../models');
 
 const testController = require("../controllers/testCtrl");
 const resultatCtrl = require("../controllers/resultatCtrl");
@@ -9,6 +10,7 @@ const rendezvousCtrl = require('../controllers/rendez_vousCtrl');
 const kitController = require('../controllers/kitCtrl');
 const panierController = require('../controllers/panierCtrl');
 const notificationController = require('../controllers/notificationctrl');
+const messageController= require('../controllers/contactController')
 const multer = require('multer');
 const path = require('path');
 
@@ -96,13 +98,28 @@ router.get('/commande/mesCommandes/:id', commandeController.getMesCommandes);
 
 
 //notification
-
-
 router.post('/notification/add', notificationController.createNotification);
 router.get('/notification/get/:userId', notificationController.getUserNotifications);
 router.put('/notification/read/:id', notificationController.markAsRead);
 router.delete('/notification/delete/:id', notificationController.deleteNotification);
 
 
+//contact routes
+router.post('/contact', messageController.sendMessage);
+router.get('/admin/messages', messageController.getMessages);
+router.get('/admin/messages/read/:id', messageController.getMessageById);
+//router.delete('/admin/messages/:id', messageController.deleteMessage);
+
+router.get('/admin/messages/:id', messageController.getMessageById);
+
+router.get('/messages/unread-count', async (req, res) => {
+    try {
+        const count = await Message.count({ where: { isRead: false } });
+        res.json({ count });
+    } catch (error) {
+        console.error('Erreur lors du comptage des messages non lus:', error);
+        res.status(500).json({ error: 'Erreur serveur' });
+    }
+});
 
 module.exports = router;

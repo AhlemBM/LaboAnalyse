@@ -5,6 +5,7 @@ import {HeaderComponent} from '../header/header.component';
 import {FooterComponent} from '../footer/footer.component';
 import {FormsModule,  ReactiveFormsModule} from '@angular/forms';
 import {RendezVousComponent} from '../../pages/rendez-vous/rendez-vous.component';
+import {ContactUserComponent} from '../../pages/contact-user/contact-user.component';
 
 
 @Component({
@@ -12,6 +13,7 @@ import {RendezVousComponent} from '../../pages/rendez-vous/rendez-vous.component
   standalone: true,
   imports: [ FormsModule,RouterModule ,RouterOutlet  ,
     CommonModule,HeaderComponent, FooterComponent, ReactiveFormsModule, RouterModule,
+    ContactUserComponent,
   RendezVousComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
